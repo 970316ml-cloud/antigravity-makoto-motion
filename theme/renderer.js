@@ -1,6 +1,6 @@
 (() => {
   'use strict';
-  if (isRemoteWindow || window.top !== window || location.protocol !== 'https:' ||
+  if ((typeof isRemoteWindow !== 'undefined' && isRemoteWindow) || window.top !== window || location.protocol !== 'https:' ||
       location.hostname !== '127.0.0.1') return;
   const { webFrame } = require('electron');
   const paragraph = '[data-testid="agent-response"] [data-markdown-root] > p';

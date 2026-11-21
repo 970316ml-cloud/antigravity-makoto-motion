@@ -8,9 +8,13 @@
 
 ## 核心特性
 
-- **双模式自动适配（支持零汉化原版客户端）**：
-  - **独立原版模式（Standalone）**：直接修补官方原版 `app.asar` 并保存纯净备份至 `%LOCALAPPDATA%\Programs\AntigravityMakotoMotion`，无需提前安装中文汉化包即可单独部署、关闭闪屏集成与一键还原官方原版。
-  - **汉化共存模式（ChineseAuto Coexistence）**：检测到 `%LOCALAPPDATA%\Programs\AntigravityChineseAuto` 时自动接管更新挂钩（`maintain.cjs` / `update-hook.cjs`），在更新客户端时保留主题接入能力。
+- **三形态兼容适配（官方英文原版 + 社区开源汉化补丁 + 个人自动维护脚本）**：
+  1. **官方英文原版 Antigravity**：直接双击 `安装结城理动效版.cmd` 独立部署至 `%LOCALAPPDATA%\Programs\AntigravityMakotoMotion`，备份干净 `app.asar` 并关闭桌面窗口闪屏过渡。
+  2. **社区主流开源汉化补丁**（如 `MIMICTE/Antigravity-zh-CN`、`antigravity-2.0-zhcn`、`Antigravity-CN` 等基于 `app.asar` / `preload.js` 注入的方案）：**先装好社区汉化，再运行本主题安装器**；安装器会自动优先读取当前已汉化的 `app.asar` 作为基底备份并叠加主题与安全作用域护栏，不会覆盖原社区汉化；更新社区汉化后重跑一次本安装器即可保留最新汉化；卸载时精确恢复至安装前的社区汉化版 `app.asar`。
+  3. **个人自动维护脚本 `AntigravityChineseAuto`（可选兼容）**：仅在本机已装有该个人自动脚本时才启用更新维护挂钩协同模式，并非前置依赖。
+- **左/右工作台侧边栏与分栏统一度**：
+  - 左侧导航栏接入夜蓝钴靛斜光底纹、右缘细青边界与工程头/折叠切换钮反馈，并在暗色模式下与左侧对话标题栏对齐夜蓝视觉；
+  - 右侧工作台/浏览器分栏（`[data-split-fill-edge="right"]`）及分栏拖拽分隔条统一配色、标签卡底线高亮与 URL 地址栏聚焦光效，同时强制保护 `[data-browser-hole]` 透明通道以确保内嵌浏览器画面零遮挡。
 - **首页与会话 6 秒 Spine 动态立绘及无缝转场**：
   - 接入《结城理-储君》模组抬手取景待机 Spine 动画（`portrait-idle.webm`）与「0 結城 理 / 愚者」双层名牌、侧栏振翅蓝蝶、对话眨眼头像、夜蓝命令牌面板。
   - 会话切换基于缓存复用的 `<video>` 对象、纯合成器层 `transform/opacity` 过渡、提交后首帧 `rAF` 同步启动与视口级轻量渐显，消除长对话及左侧项目栏切换时的抽帧与掉帧。
@@ -39,9 +43,9 @@
    - 自动定位 Antigravity（若装在自定义目录，可执行 `.\Install-Theme.ps1 -InstallDir "你的Antigravity目录"`）；
    - 自动识别原版独立安装或汉化共存模式，备份干净的当前版本 `app.asar` 后写入主题并重启客户端。
 
-### 卸载 / 恢复原版或纯汉化
-- **全新原版用户**：双击 **`卸载并恢复原版界面.cmd`**（将从备份精确还原未经修改的官方 `app.asar` 并清除启用标志）。
-- **汉化版用户**：双击 **`恢复纯汉化界面.cmd`**。
+### 卸载 / 恢复安装前界面
+- **官方原版 / 社区开源汉化用户**：双击 **`卸载并恢复原版界面.cmd`**（将从备份精确还原安装前的官方原版或社区汉化版 `app.asar` 并清除启用标志）。
+- **个人自动维护脚本 `AntigravityChineseAuto` 用户**：双击 **`恢复纯汉化界面.cmd`**。
 
 ---
 

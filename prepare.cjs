@@ -39,28 +39,30 @@ function isCleanArchive(file) {
   try {
     if (version(file) !== ver) return false;
     const raw = read(file, 'dist/preload.js');
-    return raw.includes('const isRemoteWindow = process.argv') && !raw.includes(oldMarker) && !raw.includes(marker);
+    return raw.includes('electron') && !raw.includes(oldMarker) && !raw.includes(marker);
   } catch {
     return false;
   }
 }
 
 const candidates = [];
+if (!themed && !legacy) {
+  candidates.push(live);
+}
 if (mode === 'chinese-auto') {
   if (legacy) candidates.push(path.join(state, 'wallpaper', 'backups', ver, 'app.asar'));
   candidates.push(path.join(state, 'makoto-motion', 'backups', ver, 'app.asar'));
 } else {
   candidates.push(path.join(state, 'backups', ver, 'app.asar'));
 }
-if (!themed && !legacy) candidates.push(live);
-candidates.push(liveBak);
+if (themed || legacy) candidates.push(liveBak);
 
 const pure = candidates.find(isCleanArchive);
 if (!pure) throw Error(`Could not find a clean base app.asar for version ${ver}`);
 
 const raw = read(pure, 'dist/preload.js');
 assert.equal(version(pure), ver);
-if (raw.includes('__ANTIGRAVITY_CHINESE_LOCALIZATION_START__')) {
+if (mode === 'chinese-auto' && raw.includes('__ANTIGRAVITY_CHINESE_LOCALIZATION_START__')) {
   assert.ok(read(pure, 'dist/updater.js').includes('__ANTIGRAVITY_CHINESE_UPDATE_START__'));
 }
 

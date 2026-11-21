@@ -425,6 +425,120 @@ html[data-makoto-ui] .agy-shell[data-makoto-view="customizations"] [data-testid=
   box-shadow: inset 3px 0 #79efff, 0 0 10px rgb(88 232 255 / 20%);
 }
 
+/* Polished left navigation sidebar contrast, project headers, and collapsed toggle pill. */
+html[data-makoto-ui] .agy-shell .bg-sidebar:has(> div > [data-testid="sidebar-navigation-items"]) {
+  background: linear-gradient(156deg, #153463 0%, #102349 46%, #0c1b39 100%);
+  box-shadow: inset -1px 0 0 rgb(99 237 255 / 14%);
+  & [data-testid="project-header"] {
+    transition: background-color 140ms ease, box-shadow 140ms ease, color 140ms ease;
+    &:hover { box-shadow: inset 3px 0 #79efff; }
+  }
+  & [data-testid="section-header"] button {
+    border-radius: 4px;
+    transition: background-color 130ms ease, color 130ms ease;
+    &:hover { background-color: rgb(99 237 255 / 16%); }
+  }
+}
+html[data-makoto-ui] .agy-shell .agy-inset-shell > .absolute:has([data-testid="sidebar-toggle"]) > div {
+  border-bottom: 2px solid #55dfee;
+  border-right: 1px solid #3c6a9c;
+  box-shadow: 2px 3px 10px rgb(8 20 42 / 30%);
+}
+html[data-makoto-ui]:is(.dark,.theme-dark,[data-theme="dark"]) .agy-shell div:has(> [data-testid="pane-titlebar-toolbar"]),
+html[data-makoto-ui] :is(.dark,.theme-dark,[data-theme="dark"]) .agy-shell div:has(> [data-testid="pane-titlebar-toolbar"]) {
+  background: linear-gradient(102deg, #112442 0 78%, #18345c 78% 79%, #132849 79%);
+  border-block-end: 1px solid #375b84;
+  color: #e8f4ff;
+  --color-foreground: #eef6ff;
+  --color-secondary-foreground: #c7dcf3;
+  --color-muted-foreground: #96b4d4;
+}
+
+/* Right workbench/browser split pane chrome (keeping [data-browser-hole] transparent for WebContentsView). */
+html[data-makoto-ui] .agy-shell [data-split-fill-edge="right"] {
+  --color-background: #edf4fc;
+  --color-card: #f8fbff;
+  --color-secondary: #dceaf9;
+  --color-muted: #e3effc;
+  --color-accent: #d3e5f8;
+  --color-border: #9dbce0;
+  --color-foreground: #142a48;
+  --color-secondary-foreground: #324f72;
+  --color-muted-foreground: #4c6888;
+  --color-primary: #1c5393;
+  --background: #edf4fc;
+  --card: #f8fbff;
+  --secondary: #dceaf9;
+  --muted: #e3effc;
+  --border: #9dbce0;
+  --foreground: #142a48;
+  --secondary-foreground: #324f72;
+  --muted-foreground: #4c6888;
+  border-inline-start: 1px solid var(--border);
+  background-color: var(--background);
+  color: var(--foreground);
+  & [data-browser-hole]:not([data-browser-hole="false"]) {
+    background: transparent !important;
+  }
+  & :is([role="tablist"], :has(> [role="tab"]), :has(input, [role="textbox"]):has(button)) {
+    background: linear-gradient(102deg, var(--background) 0 76%, var(--secondary) 76% 77.2%, var(--background) 77.2%);
+    border-block-end: 1px solid var(--border);
+  }
+  & :is([role="tab"], button) {
+    color: var(--secondary-foreground);
+    transition: background-color 140ms ease, color 140ms ease, box-shadow 140ms ease;
+    &:hover:not([aria-selected="true"]):not([data-active="true"]):not([aria-current="page"]) {
+      background-color: color-mix(in srgb, var(--secondary) 80%, transparent);
+      color: var(--foreground);
+    }
+  }
+  & :is([role="tab"][aria-selected="true"], [data-active="true"], [aria-current="page"]) {
+    background-color: var(--card);
+    color: var(--foreground);
+    box-shadow: inset 0 -2px #4fd8ee;
+  }
+  & :is(input:not([type="checkbox"]):not([type="radio"]), [role="textbox"]) {
+    background-color: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 4px 10px 4px 4px;
+    color: var(--foreground);
+    transition: border-color 140ms ease, box-shadow 140ms ease;
+    &:focus, &:focus-visible {
+      border-color: #54d8ee;
+      box-shadow: 0 0 0 2px rgb(84 216 238 / 22%);
+      outline: none;
+    }
+  }
+}
+html[data-makoto-ui]:is(.dark,.theme-dark,[data-theme="dark"]) .agy-shell [data-split-fill-edge="right"],
+html[data-makoto-ui] :is(.dark,.theme-dark,[data-theme="dark"]) .agy-shell [data-split-fill-edge="right"] {
+  --color-background: #0e1e36;
+  --color-card: #152946;
+  --color-secondary: #1d3659;
+  --color-muted: #1a3152;
+  --color-accent: #22416a;
+  --color-border: #3a5c84;
+  --color-foreground: #eef6ff;
+  --color-secondary-foreground: #c7dcf3;
+  --color-muted-foreground: #96b4d4;
+  --color-primary: #63edff;
+  --background: #0e1e36;
+  --card: #152946;
+  --secondary: #1d3659;
+  --muted: #1a3152;
+  --border: #3a5c84;
+  --foreground: #eef6ff;
+  --secondary-foreground: #c7dcf3;
+  --muted-foreground: #96b4d4;
+}
+html[data-makoto-ui] .agy-shell [data-split-root="true"] :is([role="separator"], [data-resize-handle]) {
+  transition: background-color 140ms ease, box-shadow 140ms ease;
+  &:is(:hover, [data-resize-handle-active], [data-active]) {
+    background-color: #54e2f7;
+    box-shadow: 0 0 8px rgb(84 226 247 / 45%);
+  }
+}
+
 /* Base UI portal menus, dropdowns, submenus, and floating tooltips across sidebar and tool views. */
 html[data-makoto-ui] :is(
   [data-base-ui-portal] .agy-overlay,

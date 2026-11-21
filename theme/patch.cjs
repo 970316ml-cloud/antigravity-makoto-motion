@@ -13,6 +13,15 @@ function unique(source, anchor, replacement) {
   return source.replace(anchor, () => replacement);
 }
 
+function uniqueMatch(source, anchor, regex, buildReplacement) {
+  if (source.includes(anchor) && source.indexOf(anchor) === source.lastIndexOf(anchor)) {
+    return source.replace(anchor, () => buildReplacement(anchor));
+  }
+  const matches = [...source.matchAll(new RegExp(regex.source, regex.flags.includes('g') ? regex.flags : regex.flags + 'g'))];
+  if (matches.length !== 1) throw Error('Antigravity theme integration point has changed: ' + anchor);
+  return source.replace(regex, m => buildReplacement(m));
+}
+
 const windowHookBlock = [
   ';try {',
   "  if (process.platform === 'win32') {",
@@ -36,7 +45,7 @@ function applyMakoto(archive, { livePath } = {}) {
   const main = AsarArchive.readFile(archive, 'dist/main.js').toString();
   const preload = AsarArchive.readFile(archive, 'dist/preload.js').toString();
   if (preload.includes(marker) && main.includes(quit)) return;
-  if (!preload.includes('const isRemoteWindow = process.argv') ||
+  if (!preload.includes('electron') ||
       preload.includes('__ANTIGRAVITY_WALLPAPER_START__') || main.includes(quit) || preload.includes(marker)) {
     throw Error('Expected a clean Antigravity archive');
   }
@@ -50,9 +59,21 @@ function applyMakoto(archive, { livePath } = {}) {
     '/* MAKOTO_PORTRAIT */', JSON.stringify('data:video/webm;base64,' + clip));
   const renderer = unique(withClip, '/* MAKOTO_CSS */', JSON.stringify(css));
   const secondary = "electron_1.app.on('second-instance', (_event, commandLine) => {";
-  const updatedMain = unique(unique(main, 'if (!gotTheLock) {',
-    'if (!gotTheLock || process.argv.includes(' + JSON.stringify(quit) + ')) {'), secondary,
-    windowHookBlock + '\n' + secondary + '\n    if (commandLine.includes(' + JSON.stringify(quit) + ')) { electron_1.app.quit(); return; }');
+  const withLock = uniqueMatch(
+    main,
+    'if (!gotTheLock) {',
+    /if\s*\(\s*!gotTheLock\s*\)\s*\{/,
+    () => 'if (!gotTheLock || process.argv.includes(' + JSON.stringify(quit) + ')) {'
+  );
+  const updatedMain = uniqueMatch(
+    withLock,
+    secondary,
+    /electron_1\.app\.on\(\s*['"]second-instance['"]\s*,\s*\([^)]*\)\s*=>\s*\{/,
+    matched => {
+      const argName = /\(\s*[^,]+,\s*([A-Za-z_$][\w$]*)[^)]*\)\s*=>\s*\{/.exec(matched)?.[1] || 'commandLine';
+      return windowHookBlock + '\n' + matched + '\n    if (' + argName + '.includes(' + JSON.stringify(quit) + ')) { electron_1.app.quit(); return; }';
+    }
+  );
   const edits = { 'dist/main.js': updatedMain, 'dist/preload.js': preload + '\n;' + JSON.stringify(marker) + ';\n' + renderer };
   for (const [filename, source] of Object.entries(edits)) new vm.Script(source, { filename });
   const tmp = archive + '.makoto.tmp';
