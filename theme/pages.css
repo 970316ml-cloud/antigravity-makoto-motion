@@ -267,6 +267,84 @@ html[data-makoto-ui] :is([data-testid="sidecars-view"],[data-main-content-body] 
   & .agy-spotlight-card { border-top: 3px solid #4ccdde; }
   & [data-testid="featured-carousel-eyebrow"] { color: var(--mk-action); }
   & [data-testid="customization-section-count"] { color: var(--mk-action); background: var(--mk-tint); border-radius: 2px; }
+  & [data-testid="featured-carousel-actions"] { gap: 10px; align-items: center; }
+  & [data-testid="featured-carousel-primary-action"] {
+    position: relative;
+    isolation: isolate;
+    min-width: 120px;
+    min-height: 38px;
+    padding: 6px 26px 8px 20px !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    color: #102042 !important;
+    font-weight: 750;
+    letter-spacing: .02em;
+    transition: transform 150ms cubic-bezier(.18,.82,.25,1), color 140ms ease;
+    & :is(span, svg) { color: inherit !important; }
+    &::before {
+      content: "";
+      position: absolute;
+      pointer-events: none;
+      z-index: -1;
+      inset: 0;
+      background: var(--mk-command-plate) center calc(50% + 1px) / 100% 124% no-repeat;
+      transition: filter 150ms ease;
+    }
+    &:is(:hover, :focus-visible):not(:disabled) {
+      color: #091d3a !important;
+      transform: translateX(2px) translateY(-1px);
+      &::before {
+        background-image: var(--mk-command-selected) !important;
+        filter: drop-shadow(0 0 8px rgb(88 232 255 / 48%));
+      }
+    }
+    &:focus-visible { outline: 2px solid #58e5ff; outline-offset: 2px; }
+    &:disabled { opacity: .58; }
+  }
+  & [data-testid="featured-carousel-actions"] > :is(button, a):not([data-testid="featured-carousel-primary-action"]) {
+    min-height: 34px;
+    padding-inline: 15px;
+    border-radius: 3px 10px 3px 3px !important;
+    background: var(--mk-tint) !important;
+    color: var(--mk-page-ink) !important;
+    border: 1px solid var(--mk-line) !important;
+    border-inline-start: 3px solid var(--mk-action) !important;
+    font-weight: 600;
+    transition: transform 140ms cubic-bezier(.18,.82,.25,1), background-color 140ms ease, border-color 140ms ease, color 140ms ease;
+    & :is(span, svg) { color: inherit !important; }
+    &:is(:hover, :focus-visible):not(:disabled) {
+      background: color-mix(in srgb, var(--mk-action) 16%, var(--mk-tint)) !important;
+      border-color: var(--mk-action) !important;
+      color: var(--mk-page-ink) !important;
+      transform: translateY(-1px);
+    }
+  }
+  & :is([data-testid="plugins-create-with-prompt"], [data-testid="add-mcp-button"], [data-testid="mcp-server-fix-with-agent"]),
+  & [data-testid="customization-card"] button:is([class*="bg-primary"], [class*="agy-button-primary"]) {
+    background: #1e4e80;
+    color: #fff !important;
+    border: 1px solid #3875a6;
+    border-bottom: 2px solid #54daed;
+    border-radius: 3px 9px 3px 3px;
+    transition: transform 140ms cubic-bezier(.2,.75,.3,1), background-color 140ms ease;
+    &:is(:hover, :focus-visible):not(:disabled) {
+      background: #225f9c;
+      transform: translateY(-1px);
+    }
+  }
+  & [data-testid="customization-card"] button:is([class*="bg-secondary"], [class*="agy-button-secondary"]) {
+    background: var(--mk-tint);
+    color: var(--mk-page-ink) !important;
+    border: 1px solid var(--mk-line);
+    border-radius: 3px 9px 3px 3px;
+    transition: transform 140ms cubic-bezier(.2,.75,.3,1), border-color 140ms ease, background-color 140ms ease;
+    &:is(:hover, :focus-visible):not(:disabled) {
+      border-color: var(--mk-action);
+      transform: translateY(-1px);
+    }
+  }
 }
 /* Theme automation create/edit form panels, inputs, triggers, and action buttons in light and dark modes. */
 html[data-makoto-ui] [data-testid="sidecars-view"] {
