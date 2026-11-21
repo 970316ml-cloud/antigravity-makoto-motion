@@ -15,8 +15,9 @@
 - **左/右工作台侧边栏与分栏统一度**：
   - 左侧导航栏接入夜蓝钴靛斜光底纹、右缘细青边界与工程头/折叠切换钮反馈，并在暗色模式下与左侧对话标题栏对齐夜蓝视觉；
   - 右侧辅助工作台/浏览器分栏自动识别并标记为 `[data-makoto-sidepane]`（与主对话/首页画布严格隔离），配合分栏拖拽分隔条统一配色、标签卡底线高亮与 URL 地址栏聚焦光效；当内部存在激活的内嵌浏览器视口 `[data-browser-hole]` 时，强制保持分栏自身及其祖先链透明无遮挡。
-- **首页与会话 6 秒 Spine 动态立绘及无缝转场**：
-  - 接入《结城理-储君》模组抬手取景待机 Spine 动画（`portrait-idle.webm`）与「0 結城 理 / 愚者」双层名牌、侧栏振翅蓝蝶、对话眨眼头像、夜蓝命令牌面板。
+- **首页与会话 6 秒 Spine 动态立绘及多形态对话头像**：
+  - 接入《结城理-储君》模组抬手取景待机 Spine 动画（`portrait-idle.webm`）与「0 結城 理 / 愚者」双层名牌、侧栏振翅蓝蝶、夜蓝命令牌面板。
+  - **5 种对话气泡眨眼形态**（`blink.webp`、`avatar-deck.webp`、`avatar-tarot.webp`、`avatar-hand.webp`、`avatar-float.webp`）：分别对应经典侧望、拨发正视、塔罗执牌、取景框眼与水下仰望 5 套 5 帧眨眼序列，按当前会话路径确定性起始并确保相邻回复不重复、流式追加不闪烁切换，兼顾短句高频对话丰富度与长文气泡布局。
   - 会话切换基于缓存复用的 `<video>` 对象（就绪检查含 `readyState >= 2 && videoWidth > 0`）、纯合成器层 `transform/opacity` 过渡、提交后首帧 `rAF` 同步启动与视口级轻量渐显，消除长对话及左侧项目栏切换时的抽帧与掉帧。
 - **原生刷新率 P3R 液态水花引擎**：
   - 基于 Canvas 2D 实时绘制双层有机水波环（`wob(a, s)`）、渐细飞沫羽流、速度对齐液滴与上升气泡；按角色实测坐标自动拟合最小不裁边画布，单帧绘制耗时 `< 0.5 ms`，单帧卡顿步进钳位，适配 60 / 120 / 144 / 165 Hz 显示器。
@@ -100,7 +101,7 @@ antigravity-makoto-motion/
     ├── WindowTransitions.cs       # Windows DWM 窗口过渡禁用源码
     ├── WindowTransitions.exe      # 上述源码编译产物（可选辅助）
     ├── WindowTransitions.sha256   # WindowTransitions.exe SHA-256 摘要清单
-    └── art/                       # 模组提取贴图与 Spine WebM 资源（见下方声明）
+    └── art/                       # 模组提取贴图、5 形态眨眼头像条（blink / avatar-*.webp）与 Spine WebM（见下方声明）
 ```
 
 ---

@@ -1,8 +1,32 @@
 /* The eyes, wing layers, dive splash, Arcana ghost and highlighted command are the mod's original artwork. */
 html[data-makoto-ui] {
   --mk-blink: url(makoto:blink);
+  --mk-avatar-1: url(makoto:avatar-deck);
+  --mk-avatar-2: url(makoto:avatar-tarot);
+  --mk-avatar-3: url(makoto:avatar-hand);
+  --mk-avatar-4: url(makoto:avatar-float);
   --mk-command-selected: url(makoto:command-selected);
   --mk-nameplate-ghost: url(makoto:nameplate-ghost);
+}
+[data-makoto-chat] [data-makoto-avatar="1"] {
+  --mk-bubble-avatar: var(--mk-avatar-1);
+  --mk-bubble-avatar-bg: #1c5394;
+  --mk-bubble-avatar-edge: #6ceaff;
+}
+[data-makoto-chat] [data-makoto-avatar="2"] {
+  --mk-bubble-avatar: var(--mk-avatar-2);
+  --mk-bubble-avatar-bg: #164079;
+  --mk-bubble-avatar-edge: #5ee2ff;
+}
+[data-makoto-chat] [data-makoto-avatar="3"] {
+  --mk-bubble-avatar: var(--mk-avatar-3);
+  --mk-bubble-avatar-bg: #1f5ea4;
+  --mk-bubble-avatar-edge: #82f3ff;
+}
+[data-makoto-chat] [data-makoto-avatar="4"] {
+  --mk-bubble-avatar: var(--mk-avatar-4);
+  --mk-bubble-avatar-bg: #164c86;
+  --mk-bubble-avatar-edge: #66e6ff;
 }
 [data-testid="sidebar-navigation-items"]:has(> [data-makoto-butterfly]) { position: relative; }
 [data-makoto-butterfly] {

@@ -556,6 +556,12 @@
       if (feat) return feat.matches('[data-testid="sidecars-view"]') ? 'automations' : 'customizations';
       return location.pathname;
     }
+    function getConvAvatarSeed() {
+      let hash = 0;
+      const key = location.pathname || '/';
+      for (let i = 0; i < key.length; i++) hash = (hash * 31 + key.charCodeAt(i)) | 0;
+      return Math.abs(hash) % 5;
+    }
     function ensurePortraitVideo() {
       if (cachedPortrait) return cachedPortrait;
       const video = document.createElement('video');
@@ -1060,8 +1066,30 @@
         rail = nav;
         if (rail) { insect = butterfly(); rail.append(insect); }
       }
-      const messages = area?.querySelectorAll('[data-testid="agent-response"] [data-markdown-root]');
-      const final = messages?.[messages.length - 1]?.parentElement;
+      const messages = area?.querySelectorAll('[data-testid="planner-response-text"] > [data-markdown-root], [data-testid="agent-response"] [data-markdown-root]');
+      const bubbles = [];
+      const seenBubbles = new Set();
+      if (messages) {
+        const convSeed = getConvAvatarSeed();
+        let prevAvatar = null;
+        let seq = 0;
+        for (const md of messages) {
+          const b = md.parentElement;
+          if (!b || seenBubbles.has(b)) continue;
+          seenBubbles.add(b);
+          bubbles.push(b);
+          let assigned = b.getAttribute('data-makoto-avatar');
+          if (!assigned) {
+            let nextIdx = (convSeed + seq) % 5;
+            if (String(nextIdx) === prevAvatar) nextIdx = (nextIdx + 1) % 5;
+            assigned = String(nextIdx);
+            b.setAttribute('data-makoto-avatar', assigned);
+          }
+          prevAvatar = assigned;
+          seq++;
+        }
+      }
+      const final = bubbles[bubbles.length - 1];
       if (final !== latest) {
         latest?.removeAttribute('data-makoto-latest');
         final?.setAttribute('data-makoto-latest', '');

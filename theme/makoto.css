@@ -370,8 +370,8 @@ html[data-makoto-ui] .agy-shell {
     &::after {
       left: 9px; top: 8px;
       width: 52px; height: 40px;
-      background: var(--mk-blink) 0% 50% / 500% 100% no-repeat, #549fe2;
-      border-bottom: 2px solid #7aedff;
+      background: var(--mk-bubble-avatar, var(--mk-blink)) 0% 50% / 500% 100% no-repeat, var(--mk-bubble-avatar-bg, #549fe2);
+      border-bottom: 2px solid var(--mk-bubble-avatar-edge, #7aedff);
       clip-path: polygon(8px 0, 100% 0, 100% 76%, 83% 100%, 0 100%, 0 8px);
     }
     & [data-markdown-root] { color: #f1f7ff; overflow-wrap: anywhere; }
