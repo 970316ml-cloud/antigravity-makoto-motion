@@ -1,112 +1,109 @@
 # Antigravity · 结城理独立动效版 (Persona 3 Reload Motion Theme)
 
-面向 Windows 版 **Antigravity**（基于 `2.34.0` 验证）的《女神异闻录 3 Reload》结城理视觉与动效主题包。支持**官方原版独立安装**与 **个人自动维护脚本 `AntigravityChineseAuto` 共存模式**，并通过按安装路径、版本与基底 SHA-256 隔离的事务化替换流程保护客户端归档。
+面向 Windows 版 **Antigravity**（基于 `2.34.0` 验证）的《女神异闻录 3 Reload》结城理（Makoto Yuki）视觉与动效主题包。支持在**官方英文原版**上直接安装，也支持与个人自动汉化脚本 **`AntigravityChineseAuto`** 共存使用。
 
 ![P3R 水花与会话切换预览](./P3R水花60fps预览.gif)
 
 ---
 
-## 核心特性
+## 主题亮点
 
-- **按安装实例与基底 SHA-256 隔离的事务化安装/卸载**：
-  - **独立同卷原子替换**：跨卷部署时先在目标同目录写入 `.tmp` 并校验 SHA-256，再通过同卷 `[IO.File]::Replace` 提交并记录 `transaction.json`；任何阶段失败会自动回滚并校验原始 SHA-256，若回滚未完成则保留恢复材料与提示路径，绝不照常清理或自动重启客户端。
-  - **严格目标识别**：显式传入 `-InstallDir` 无效时直接报错退出，绝不静默回退默认路径；未指定 `-InstallDir` 且本机存在多套 Antigravity 时列出全部路径并要求用户显式指定；仅当安装目录匹配个人维护脚本管理的 `%LOCALAPPDATA%\Programs\antigravity` 时才启用 `chinese-auto` 模式。
-  - **独立基底绑定**：每套客户端按 `installs/<installKey>.json` 绑定 `backups/<installKey>/<version>/<sha16>/app.asar`，绝不自动猜测 `resources\app.asar.bak`。若检测到已主题化的 `app.asar` 在外部被第三方补丁改写，安装器会直接拒绝执行并提示先恢复干净基底，避免静默降级或覆盖。
-- **左/右工作台侧边栏与分栏统一度**：
-  - 左侧导航栏接入夜蓝钴靛斜光底纹、右缘细青边界与工程头/折叠切换钮反馈，并在暗色模式下与左侧对话标题栏对齐夜蓝视觉；
-  - 右侧辅助工作台/浏览器分栏自动识别并标记为 `[data-makoto-sidepane]`（与主对话/首页画布严格隔离），配合分栏拖拽分隔条统一配色、标签卡底线高亮与 URL 地址栏聚焦光效；当内部存在激活的内嵌浏览器视口 `[data-browser-hole]` 时，强制保持分栏自身及其祖先链透明无遮挡。
-- **首页与会话 6 秒 Spine 动态立绘及多形态对话头像**：
-  - 接入《结城理-储君》模组抬手取景待机 Spine 动画（`portrait-idle.webm`）与「0 結城 理 / 愚者」双层名牌、侧栏振翅蓝蝶、夜蓝命令牌面板。
-  - **5 种对话气泡眨眼形态**（`blink.webp`、`avatar-deck.webp`、`avatar-tarot.webp`、`avatar-hand.webp`、`avatar-float.webp`）：分别对应经典侧望、拨发正视、塔罗执牌、取景框眼与水下仰望 5 套 5 帧眨眼序列，按当前会话路径确定性起始并确保相邻回复不重复、流式追加不闪烁切换，兼顾短句高频对话丰富度与长文气泡布局。
-  - 会话切换基于缓存复用的 `<video>` 对象（就绪检查含 `readyState >= 2 && videoWidth > 0`）、纯合成器层 `transform/opacity` 过渡、提交后首帧 `rAF` 同步启动与视口级轻量渐显，消除长对话及左侧项目栏切换时的抽帧与掉帧。
-- **原生刷新率 P3R 液态水花引擎**：
-  - 基于 Canvas 2D 实时绘制双层有机水波环（`wob(a, s)`）、渐细飞沫羽流、速度对齐液滴与上升气泡；按角色实测坐标自动拟合最小不裁边画布，单帧绘制耗时 `< 0.5 ms`，单帧卡顿步进钳位，适配 60 / 120 / 144 / 165 Hz 显示器。
-- **「自动化 / 个性化定制 / 设置」全页面覆盖**：
-  - **自动化（列表与新建/编辑表单）**与**个性化定制（插件市场 / 已安装）**：配置斜角点阵、双速水光波纹、水下/塔罗专属几何光环、跨页随动蓝蝶，支持跨页与子标签切换四重联动；主推精选卡片（Featured Spotlight）的主操作按钮（如 `+ 添加`）采用与「开启新会话 / 设置侧栏」同款的 P3R 命令牌样式（悬停/聚焦切青光底牌）搭配斜角青边辅助按钮（`详情`）与高对比度卡片按钮，在日光与暗色模式下均清晰可辨。
-  - **设置弹窗 & 全界面弹出层**：保持时钟相位连续的倒挂 SYSTEM 立绘 + 入水下潜回弹与局部水花，并将侧栏「显示选项」「新建项目 / SSH Host...」等 Base UI 菜单与悬浮提示气泡统一接入夜蓝青边视觉风格。
+- **动态结城理立绘与 5 种眨眼对话头像**
+  - **首页与聊天背景**：接入《结城理-储君》模组的 6 秒抬手取景动态立绘，人物会自然眨眼、发梢与手臂随呼吸轻摆、镜片扫过青光，并搭配「0 結城 理 / 愚者」双层浮动名牌与振翅蓝蝶。首页立绘完整展现，进入聊天页后自动转为半透明背景，不干扰阅读。
+  - **气泡头像不单调**：AI 回复气泡左上角提供 **5 种结城理眨眼头像**（经典侧望、拨发正视、塔罗执牌、取景框眼、水下仰望）。连续对话时自动轮换且相邻两条不重复；最新一条回复的头像会自然眨眼并带青色呼吸流光，鼠标悬停到历史回复上也会触发眨眼。
+- **P3R 水花转场与高刷流畅体验**
+  - **实时水花特效**：在首页、不同对话、自动化、个性化定制及设置分类之间切换时，会触发斜切青光扫掠与实时绘制的 P3R 水波飞沫特效，自适应 60 / 120 / 144 / 165 Hz 显示器刷新率。
+  - **长对话不卡顿**：针对长篇对话与左侧项目列表做了专门的性能优化，切换会话或加载历史记录时顺滑不掉帧。
+- **全界面 P3R 风格统一（支持日光 / 暗夜双模式）**
+  - **左右分栏与内置浏览器**：左侧导航栏采用 P3R 夜蓝斜光与青色边线，「开启新会话」「设置」等按钮悬停时切换为模组同款青色命令牌；右侧打开内置浏览器或辅助分栏时，标签栏与地址栏自动匹配主题配色，同时保持内置网页画面透明无遮挡。
+  - **自动化、个性化定制与设置页**：自动化页配有水下漂浮立绘与同心水波环，个性化定制页配有塔罗牌立绘与几何光框，精选推荐卡片的「`+ 添加`」按钮同样采用 P3R 命令牌样式，在日光与暗色模式下都清晰醒目；打开设置弹窗时，顶部会有倒挂的 `SYSTEM` 结城理立绘随分类切换产生入水回弹与水花。
+- **安全安装与一键还原**
+  - 安装前自动按当前客户端路径、版本号和文件校验值建立独立备份；即使跨盘安装或中途遇到磁盘空间不足，也会自动回滚保护原文件，不会损坏客户端。
+  - 随时可双击卸载脚本一键恢复安装前的界面。
 
 ![自动化与定制立绘动效预览](./自动化与定制立绘动效预览.gif)
 
 ---
 
-## 验证范围与兼容矩阵
-
-| 客户端 / 补丁形态 | 当前验证状态 | 安装与卸载行为说明 |
-| --- | --- | --- |
-| **Windows 官方英文原版 `2.34.0`** | 已验证（离线沙箱安装/卸载全流程 + 跨盘原子替换 & 回滚断言 + 无头 Edge 渲染） | 直接从干净 `app.asar` 备份基底并部署主题；卸载双击 **`卸载并恢复原版界面.cmd`** 按 SHA-256 精确恢复至安装前的原版 `app.asar`。 |
-| **个人自动维护脚本 `AntigravityChineseAuto`（`2.34.0`）** | 已验证（默认路径共建/升级/恢复链路） | 仅当安装目录为 `%LOCALAPPDATA%\Programs\antigravity` 且存在完整维护脚本时启用。双击 **`恢复纯汉化界面.cmd`** 可精确恢复纯汉化 `app.asar` 界面、移除 `enabled` 并清除 `update-hook.cjs` 挂钩（`maintain.cjs` 中保留因缺少 `enabled` 而不触发的扩展槽位定义，即“恢复界面”而非逐字节恢复个人维护脚本原文件）。 |
-| **第三方社区汉化补丁（修改 `app.asar` 的方案）** | 仅通过合成归档离线仿真（未对各具体发行版逐一实机全流程验证） | 若目标 `app.asar` 处于**未主题化的干净汉化状态**，安装器会保留该汉化作为基底并记录独立 SHA-256 清单，卸载可还原至该汉化基底；若此前已在主题化归档上直接被第三方补丁改写，安装器会**拒绝运行并提示先恢复干净的汉化基底**后再叠加主题。 |
-
----
-
 ## 安装与卸载（Windows）
 
-### 前置依赖
-- **Windows 版 Antigravity**（基于 `2.34.0` 验证）
-- **Node.js 18+**（独立安装需本机可调用 `node`，未安装可执行 `winget install OpenJS.NodeJS.LTS`；`AntigravityChineseAuto` 共存模式可复用 `config.json` 中配置的 Node）
+### 1. 环境要求
+- **Windows 版 Antigravity**（已在 `2.34.0` 验证）
+- **Node.js 18 或更高版本**（若电脑尚未安装 Node.js，可在终端运行 `winget install OpenJS.NodeJS.LTS` 安装）
 
-### 安装步骤
-1. 下载或克隆本仓库：
+### 2. 一键安装
+1. 下载解压本主题包，或使用 Git 克隆仓库：
    ```powershell
    git clone https://github.com/970316ml-cloud/antigravity-makoto-motion.git
    ```
-2. 双击 **`安装结城理动效版.cmd`**（或运行 `powershell -ExecutionPolicy Bypass -File .\Install-Theme.ps1`）：
-   - 若装在自定义目录或本机并存多个 Antigravity 安装，请显式指定：`.\Install-Theme.ps1 -InstallDir "你的Antigravity目录"`；
-   - 安装脚本会校验安装目录、检查无未完成事务 `transaction.json`、生成按路径与 SHA-256 隔离的基底备份，并在提交流程前再次核对 `app.asar` 摘要与版本号后原子替换。
-   - **社区汉化更新提示**：升级社区汉化前建议先卸载主题恢复干净基底、更新汉化后再运行本安装器，避免混杂改写导致拒绝继续。
+2. 双击运行 **`安装结城理动效版.cmd`**：
+   - 脚本会自动检测你的 Antigravity 安装位置、备份原始文件并写入主题；若客户端正在运行，会自动平滑重启使其生效。
+   - **自定义目录或多开用户**：如果你的 Antigravity 装在非默认位置，或电脑里装了多套客户端，请用 PowerShell 指定目录安装：
+     ```powershell
+     powershell -ExecutionPolicy Bypass -File .\Install-Theme.ps1 -InstallDir "你的Antigravity安装目录"
+     ```
 
-### 卸载 / 恢复安装前界面
-- **官方原版 / 干净社区汉化基底用户**：双击 **`卸载并恢复原版界面.cmd`**（或带 `-InstallDir` 执行 `.\Install-Theme.ps1 -Restore -InstallDir "..."`），按安装记录与 SHA-256 校验恢复对应的 `app.asar`。
-- **个人自动维护脚本 `AntigravityChineseAuto` 用户**：双击 **`恢复纯汉化界面.cmd`** 恢复纯汉化界面并禁用窗口过渡挂钩。
+### 3. 一键卸载 / 恢复原样
+- **官方原版 / 社区汉化版用户**：双击 **`卸载并恢复原版界面.cmd`**（自定义目录请运行 `.\Install-Theme.ps1 -Restore -InstallDir "你的目录"`），即可把客户端精确还原到安装主题前的状态。
+- **个人自动汉化脚本（`AntigravityChineseAuto`）用户**：双击 **`恢复纯汉化界面.cmd`**，即可退回纯中文界面并关闭主题动效。
 
 ---
 
-## 随附程序来源与校验（`WindowTransitions.exe`）
+## 兼容情况说明
 
-Windows 主窗口收放过渡禁用由源码 [theme/WindowTransitions.cs](./theme/WindowTransitions.cs)（23 行 C# 调用 `GetWindowThreadProcessId` 与 `DwmSetWindowAttribute`）编译得到，未包含第三方依赖：
+| 你的客户端类型 | 支持状态 | 使用注意事项 |
+| --- | --- | --- |
+| **Windows 官方英文原版（`2.34.0`）** | 已完整验证 | 直接双击 `安装结城理动效版.cmd` 即可；卸载双击 `卸载并恢复原版界面.cmd` 恢复原版。 |
+| **个人自动汉化脚本 `AntigravityChineseAuto`（`2.34.0`）** | 已完整验证 | 仅当客户端装在默认路径 `%LOCALAPPDATA%\Programs\antigravity` 且配有该维护脚本时自动启用共存模式；卸载双击 `恢复纯汉化界面.cmd` 恢复纯中文界面。 |
+| **第三方社区汉化补丁（直接修改 `app.asar` 的方案）** | 离线仿真验证 | 请在**干净的汉化状态**下安装本主题，卸载时会还原回该汉化版本。**注意**：以后升级第三方汉化补丁前，请先双击 `卸载并恢复原版界面.cmd` 卸载本主题，升级完汉化后再重新安装主题，不要在已装主题的状态下直接拿第三方补丁硬覆盖（安装器检测到文件被外部混改会拒绝执行，以防改坏客户端）。 |
 
-- **可复现构建脚本**：[build-helper.ps1](./build-helper.ps1)
-- **构建命令**：
+---
+
+## 随附小工具说明（`WindowTransitions.exe`）
+
+为了消除 Windows 窗口最小化/还原时的系统残影，主题内置了一个可选的 23 行 C# 辅助小工具（源码位于 [theme/WindowTransitions.cs](./theme/WindowTransitions.cs)，仅调用 Windows 原生 DWM 接口关闭窗口过渡动画，无任何联网或第三方依赖）：
+
+- **重编译脚本**：双击或在 PowerShell 运行 [build-helper.ps1](./build-helper.ps1) 即可用 Windows 自带的 C# 编译器从源码重新生成。
+- **编译命令**：
   ```powershell
   C:\Windows\Microsoft.NET\Framework64\v4.0.30319\csc.exe /nologo /target:winexe /optimize+ /out:theme\WindowTransitions.exe theme\WindowTransitions.cs
   ```
-- **本次构建工具链**：Microsoft (R) Visual C# Compiler `4.8.9221.0` (`NET481REL1LAST_25H2`)
-- **当前 `theme/WindowTransitions.exe` SHA-256**（记录于 [theme/WindowTransitions.sha256](./theme/WindowTransitions.sha256)）：
+- **当前版本文件校验（SHA-256，记录于 [theme/WindowTransitions.sha256](./theme/WindowTransitions.sha256)）**：
   `9ed843c4940528844de2a8d81f43bb49fc733f9d60dc8d5fce13447731f893f5`
-- **运行时安全降级**：[theme/window-events.cjs](./theme/window-events.cjs) 在启动该 EXE 前会核对 `WindowTransitions.exe` 与 `WindowTransitions.sha256`；若缺失或校验不匹配（例如用户自行删除或系统安全策略拦截），仅跳过禁用窗口过渡的辅助调用并输出警告，主界面主题与动效照常运行。
+- **可随时删掉**：客户端启动前会核对该文件的 SHA-256；如果你不需要它或直接删掉 `WindowTransitions.exe`，主题只会跳过“关闭系统窗口缩放动画”这一步，**所有界面主题与结城理动效均照常工作**。
 
 ---
 
-## 目录结构
+## 文件夹里有什么
 
 ```text
 antigravity-makoto-motion/
-├── Install-Theme.ps1              # 事务化同卷原子替换、路径隔离与卸载脚本
-├── build-helper.ps1               # 从 WindowTransitions.cs 重新构建辅助程序并生成 .sha256
-├── prepare.cjs                    # 离线 ASAR 构建、基底清单与严格摘要校验脚本
-├── window-hook.cjs                # 汉化维护脚本窗口事件挂载器
-├── update-extension.txt           # 汉化升级扩展模板（带内容寻址备份）
-├── 安装结城理动效版.cmd           # 一键安装入口
-├── 卸载并恢复原版界面.cmd         # 一键还原安装前基底入口
-├── 恢复纯汉化界面.cmd             # 个人自动维护脚本恢复纯汉化入口
-├── 使用说明.txt                   # 中文详细说明
+├── 安装结城理动效版.cmd           # 双击一键安装主题
+├── 卸载并恢复原版界面.cmd         # 双击卸载主题、还原安装前状态（原版/社区汉化适用）
+├── 恢复纯汉化界面.cmd             # 双击恢复纯中文界面（AntigravityChineseAuto 适用）
+├── 使用说明.txt                   # 简明文本版使用说明
+├── Install-Theme.ps1              # 安装、备份、回滚与卸载主脚本
+├── prepare.cjs                    # 主题打包、备份校验与文件完整性检查脚本
+├── build-helper.ps1               # 从源码重新编译 WindowTransitions.exe 的脚本
+├── window-hook.cjs                # 自动汉化模式下的窗口事件挂载辅助
+├── update-extension.txt           # 自动汉化模式下的更新衔接模板
 └── theme/
-    ├── asar.cjs                   # 零依赖 ASAR 读写与 SHA-256 完整性重算器
-    ├── patch.cjs                  # 严格参数锚点校验补丁注入与 vm.Script 检查
-    ├── renderer.js                # 动效编排、Canvas P3R 水花引擎与分栏隔离状态机
-    ├── makoto.css                 # 主体视觉风格与夜蓝/浅蓝配色令牌
-    ├── motion.css                 # 立绘呼吸、蓝蝶、水波与交互过渡动效
-    ├── pages.css                  # 自动化、个性化定制、设置与透明孔穿透样式
-    ├── window-events.cjs          # 窗口还原绘制等待与 EXE SHA-256 校验监听
-    ├── WindowTransitions.cs       # Windows DWM 窗口过渡禁用源码
-    ├── WindowTransitions.exe      # 上述源码编译产物（可选辅助）
-    ├── WindowTransitions.sha256   # WindowTransitions.exe SHA-256 摘要清单
-    └── art/                       # 模组提取贴图、5 形态眨眼头像条（blink / avatar-*.webp）与 Spine WebM（见下方声明）
+    ├── makoto.css                 # 主界面、侧边栏、聊天气泡与设置面板配色样式
+    ├── motion.css                 # 立绘呼吸、蓝蝶振翅、水波浮动与 5 种头像眨眼动画
+    ├── pages.css                  # 自动化、个性化定制、右键菜单与右侧分栏样式
+    ├── renderer.js                # 页面切换转场、Canvas 实时水花与头像轮换逻辑
+    ├── asar.cjs                   # 零依赖 ASAR 归档读写工具
+    ├── patch.cjs                  # 主题注入脚本
+    ├── window-events.cjs          # 窗口还原防白屏与辅助工具校验脚本
+    ├── WindowTransitions.cs       # 窗口过渡动画关闭工具 C# 源码
+    ├── WindowTransitions.exe      # 上述源码编译出的可选辅助程序
+    ├── WindowTransitions.sha256   # 辅助程序的 SHA-256 校验值
+    └── art/                       # 结城理动态立绘视频、5 种眨眼头像与 UI 贴图素材
 ```
 
 ---
 
-## 代码许可与第三方美术素材声明
+## 代码与美术素材声明
 
-- **脚本与样式代码**：本仓库内的安装脚本（`*.ps1`、`*.cmd`）、补丁构建器（`*.cjs`）、前端渲染脚本与样式表（`renderer.js`、`*.css`）以及辅助程序源码 `WindowTransitions.cs` 均为项目实现代码。
-- **第三方美术与动画素材（`theme/art/`）**：`theme/art/` 目录下的角色立绘、Spine 动作视频（`portrait-idle.webm`）、名牌/阿卡纳/蓝蝶/命令牌等美术资源源自《女神异闻录 3 Reload》社区模组 `P3Makoto`（结城理-储君）及原作相关素材。**上述来源致谢不构成第三方美术资源的公开再分发授权**；相关素材仅用于个人非商业研究与主题预览，若需公开二次分发整包，请自行取得素材权利人授权或替换为自制/已授权素材。
+- **代码部分**：本仓库中的安装与卸载脚本（`*.ps1`、`*.cmd`）、构建脚本（`*.cjs`）、前端动效与样式代码（`renderer.js`、`*.css`）以及 `WindowTransitions.cs` 均为本项目编写的实现代码。
+- **美术素材（`theme/art/`）**：`theme/art/` 中的角色立绘、Spine 动作视频（`portrait-idle.webm`）、5 种眨眼头像、名牌/阿卡纳/蓝蝶/命令牌等贴图提取自《女神异闻录 3 Reload》社区模组 `P3Makoto`（结城理-储君）及原作相关美术资源。**列出素材来源仅作致谢，不代表拥有这些第三方美术资源的公开再分发授权**；本仓库素材仅供个人非商业学习与本地主题体验，若需公开二次分发打包文件，请先取得原作者/权利人授权或替换为自制素材。
