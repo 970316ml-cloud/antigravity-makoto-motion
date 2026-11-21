@@ -566,12 +566,19 @@
       video.disablePictureInPicture = true;
       video.addEventListener('playing', () => {
         if (video !== portrait) return;
-        video.setAttribute('data-ready', '');
-        enterConversation();
+        if (video.readyState >= 2 && video.videoWidth > 0) {
+          video.setAttribute('data-ready', '');
+          enterConversation();
+        }
       });
       video.addEventListener('loadeddata', () => {
         if (video !== portrait) return;
-        video.setAttribute('data-ready', '');
+        if (video.readyState >= 2 && video.videoWidth > 0) {
+          video.setAttribute('data-ready', '');
+        }
+      });
+      video.addEventListener('error', () => {
+        video.removeAttribute('data-ready');
       });
       video.src = portraitUrl;
       cachedPortrait = video;
@@ -603,7 +610,8 @@
         portrait?.pause();
         const video = ensurePortraitVideo();
         portrait = video;
-        if (video.readyState >= 2) video.setAttribute('data-ready', '');
+        if (video.readyState >= 2 && video.videoWidth > 0) video.setAttribute('data-ready', '');
+        else video.removeAttribute('data-ready');
         layer.prepend(video);
         playPortrait();
       }
@@ -982,6 +990,29 @@
       }
       return nextKey;
     }
+    function syncSidePane() {
+      const mainBody = document.querySelector('.agy-shell [data-main-content-body]');
+      const innerSplit = mainBody?.closest('[data-split-root="true"]');
+      const nextSet = new Set();
+      if (innerSplit) {
+        for (const el of innerSplit.children) {
+          if (
+            !(mainBody && el.contains(mainBody)) &&
+            !el.querySelector('[data-main-content-body], [data-makoto-chat], [data-testid="sidecars-view"], [data-testid="plugins-tabs"]') &&
+            !el.matches('[role="separator"], [data-resize-handle]') &&
+            Boolean(el.querySelector('[data-browser-hole]') || el.offsetWidth > 40)
+          ) {
+            nextSet.add(el);
+          }
+        }
+      }
+      document.querySelectorAll('[data-makoto-sidepane]').forEach(el => {
+        if (!nextSet.has(el)) el.removeAttribute('data-makoto-sidepane');
+      });
+      nextSet.forEach(el => {
+        if (!el.hasAttribute('data-makoto-sidepane')) el.setAttribute('data-makoto-sidepane', '');
+      });
+    }
     function sync() {
       queued = false;
       const anchor = document.querySelector('.agy-shell .surface-composer, .agy-shell [data-testid="conversation-view"]');
@@ -1015,6 +1046,7 @@
       syncPortrait();
       const activeFeature = syncFeaturePage();
       syncSettingsDive();
+      syncSidePane();
       lastMainView = getMainViewKey();
       const shell = document.querySelector('.agy-shell');
       if (shell) {
