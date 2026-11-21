@@ -1,0 +1,731 @@
+/* Automation and customization share the native page column and keep each control in place. */
+html[data-makoto-ui] {
+  --mk-page: #eff5fc;
+  --mk-surface: #fcfdff;
+  --mk-line: #adc4dc;
+  --mk-page-ink: #172d4b;
+  --mk-secondary: #405978;
+  --mk-tint: #e0edfa;
+  --mk-action: #145190;
+  --mk-primary: #1c5393;
+  --mk-primary-ink: #ffffff;
+  --mk-page-water: rgb(32 162 248 / 12%);
+  --mk-page-slash: rgb(72 204 248 / 26%);
+  --mk-page-aura-ring: rgb(42 184 246 / 28%);
+  --mk-page-dot: rgb(20 81 144 / 17%);
+  --mk-banner-eyes: url(makoto:eyes);
+  --mk-system-art: url(makoto:system-menu);
+  --mk-pile-tarot: url(makoto:pile-tarot);
+  --mk-pile-float: url(makoto:pile-float);
+  --mk-page-portrait-opacity: .22;
+}
+html[data-makoto-ui]:is(.dark,.theme-dark,[data-theme="dark"]),
+html[data-makoto-ui] :is(body.dark,body.theme-dark,[data-theme="dark"]) {
+  --mk-page: #10213a;
+  --mk-surface: #192e49;
+  --mk-line: #426584;
+  --mk-page-ink: #eff7ff;
+  --mk-secondary: #bdd1e5;
+  --mk-tint: #223d5c;
+  --mk-action: #83e6f4;
+  --mk-primary: #2266ad;
+  --mk-primary-ink: #f4fdff;
+  --mk-page-water: rgb(78 214 255 / 16%);
+  --mk-page-slash: rgb(98 232 255 / 26%);
+  --mk-page-aura-ring: rgb(96 238 255 / 34%);
+  --mk-page-dot: rgb(131 230 244 / 18%);
+  --mk-page-portrait-opacity: .32;
+}
+html[data-makoto-ui] :is([data-testid="sidecars-view"],[data-main-content-body] .bg-background.h-full:has([data-testid="plugins-tabs"])) {
+  position: relative;
+  isolation: isolate;
+  --color-background: var(--mk-page);
+  --color-foreground: var(--mk-page-ink);
+  --color-secondary: var(--mk-tint);
+  --color-secondary-foreground: var(--mk-secondary);
+  --color-muted: var(--mk-tint);
+  --color-muted-foreground: var(--mk-secondary);
+  --color-accent: var(--mk-tint);
+  --color-accent-foreground: var(--mk-page-ink);
+  --color-primary: var(--mk-primary);
+  --color-primary-foreground: var(--mk-primary-ink);
+  --color-card: var(--mk-surface);
+  --color-card-foreground: var(--mk-page-ink);
+  --color-popover: var(--mk-surface);
+  --color-popover-foreground: var(--mk-page-ink);
+  --color-border: var(--mk-line);
+  --color-input: var(--mk-surface);
+  --color-ring: var(--mk-action);
+  --background: var(--mk-page);
+  --foreground: var(--mk-page-ink);
+  --secondary: var(--mk-tint);
+  --secondary-foreground: var(--mk-secondary);
+  --muted: var(--mk-tint);
+  --muted-foreground: var(--mk-secondary);
+  --card: var(--mk-surface);
+  --border: var(--mk-line);
+  --input: var(--mk-surface);
+  color: var(--mk-page-ink);
+  background:
+    radial-gradient(ellipse 46% 52% at 88% 82%, var(--mk-page-water), transparent 72%),
+    linear-gradient(116deg, transparent 74%, var(--mk-page-slash) 74.15% 74.45%, transparent 74.6%),
+    linear-gradient(119deg, transparent 75%, color-mix(in srgb, var(--mk-tint) 68%, transparent) 75.2% 83.4%, var(--mk-tint) 83.6% 91.5%, color-mix(in srgb, var(--mk-action) 10%, var(--mk-tint)) 91.7%),
+    var(--mk-page);
+  & > :not([data-makoto-page-stage]):not([data-makoto-page-fx]) { position: relative; z-index: 2; }
+  & [data-makoto-page-stage], & [data-makoto-page-fx] {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    overflow: hidden;
+  }
+  & [data-makoto-page-stage] {
+    z-index: 0;
+    contain: layout paint;
+  }
+  & [data-makoto-page-fx] {
+    z-index: 0;
+  }
+  & [data-makoto-page-stage]::before {
+    content: "";
+    position: absolute;
+    inset: auto auto 0 0;
+    width: 40%;
+    height: 30%;
+    background: radial-gradient(circle, var(--mk-page-dot) 0.9px, transparent 1.15px) 0 0 / 7px 7px;
+    mask-image: linear-gradient(35deg, #000, transparent 60%);
+    opacity: .85;
+  }
+  & [data-makoto-page-water] {
+    position: absolute;
+    inset: 0 0 0 auto;
+    width: min(46vw, 560px);
+    pointer-events: none;
+    overflow: hidden;
+    --mk-caustic: color-mix(in srgb, var(--mk-action) 20%, transparent);
+    &::before {
+      content: "";
+      position: absolute;
+      inset: -10px -12px;
+      background:
+        radial-gradient(ellipse 220px 64px at calc(100% + 42px) 24%, transparent 74%, var(--mk-caustic) 76%, transparent 79%),
+        radial-gradient(ellipse 170px 48px at calc(100% + 26px) 58%, transparent 74%, var(--mk-caustic) 76%, transparent 79%),
+        radial-gradient(ellipse 196px 52px at calc(100% + 34px) 84%, transparent 74%, var(--mk-caustic) 76%, transparent 79%);
+      opacity: .76;
+    }
+    &::after {
+      content: "";
+      position: absolute;
+      inset: 0 0 -211px;
+      background-size: 100% 211px;
+      background-image:
+        radial-gradient(circle at 46% 31%, transparent 2.1px, color-mix(in srgb, var(--mk-action) 30%, #bffaff) 2.6px 3.1px, transparent 3.8px),
+        radial-gradient(circle at 69% 79%, transparent 3px, color-mix(in srgb, var(--mk-action) 25%, #b2f7ff) 3.5px 4px, transparent 4.8px),
+        radial-gradient(circle at 22% 52%, color-mix(in srgb, var(--mk-action) 32%, #d8ffff) 1px, transparent 2px);
+      mask-image: linear-gradient(0deg, transparent, black 14% 88%, transparent);
+      opacity: .56;
+    }
+  }
+  & [data-makoto-page-aura] {
+    position: absolute;
+    right: max(12px, 1.5%);
+    bottom: 12px;
+    width: min(52vh, 380px);
+    aspect-ratio: 1;
+    pointer-events: none;
+    opacity: .66;
+    &::before, &::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+    }
+  }
+  & [data-makoto-page-sweep] {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0;
+    will-change: transform, opacity;
+    background: linear-gradient(112deg, transparent 20%, rgb(86 226 255 / 16%) 45%, rgb(168 248 255 / 26%) 51%, rgb(48 164 255 / 12%) 58%, transparent 78%);
+    transform: translate3d(38%, 0, 0);
+  }
+  & [data-makoto-page-dive] {
+    position: absolute;
+    pointer-events: none;
+    opacity: .78;
+    will-change: transform;
+  }
+  & [data-makoto-page-fx] > [data-makoto-butterfly] {
+    display: block;
+    width: clamp(32px, 3.6vw, 50px);
+    opacity: .92;
+  }
+  &::before {
+    content: "";
+    position: absolute;
+    z-index: 0;
+    pointer-events: none;
+    right: 1%;
+    top: 0;
+    bottom: -211px;
+    width: clamp(90px, 24%, 310px);
+    background-size: 100% 211px;
+    background-image:
+      radial-gradient(circle at 26% 22%, transparent 3.6px, color-mix(in srgb, var(--mk-action) 38%, #bffaff) 4.2px 4.8px, transparent 5.5px),
+      radial-gradient(circle at 78% 64%, transparent 5.5px, color-mix(in srgb, var(--mk-action) 32%, #b5f7ff) 6.1px 6.7px, transparent 7.5px),
+      radial-gradient(circle at 54% 41%, transparent 2.2px, color-mix(in srgb, var(--mk-action) 36%, #cefaff) 2.7px 3.2px, transparent 4px),
+      radial-gradient(circle at 86% 14%, color-mix(in srgb, var(--mk-action) 36%, #d8ffff) 1.1px, transparent 2.2px);
+    mask-image: linear-gradient(0deg, transparent, black 12% 86%, transparent);
+    opacity: .68;
+  }
+  &::after {
+    content: "";
+    position: absolute;
+    z-index: 0;
+    pointer-events: none;
+    right: 1.2%;
+    bottom: -6px;
+    height: min(68%, 450px);
+    aspect-ratio: 2 / 3;
+    opacity: var(--mk-page-portrait-opacity);
+    filter: drop-shadow(10px -4px 0 rgb(72 232 255 / 22%)) brightness(1);
+  }
+  & .sticky.bg-background {
+    background-color: color-mix(in srgb, var(--mk-page) 88%, transparent);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--mk-line);
+  }
+  & .min-w-0.px-3:has(> h1) { min-width: min(230px,100%); }
+  & h1 {
+    position: relative; isolation: isolate;
+    box-sizing: border-box; width: fit-content; max-width: 100%; min-width: min(205px,100%);
+    margin: 0; padding: 9px 40px 9px 15px;
+    color: #effaff; font-weight: 700; letter-spacing: .04em; line-height: 1.2;
+    &::before {
+      content: ""; position: absolute; z-index: -1; inset: 0;
+      clip-path: polygon(6px 0,100% 0,calc(100% - 15px) 100%,0 100%,0 6px);
+      border-bottom: 3px solid #55dfee;
+      background: linear-gradient(90deg,#102a4c 42%,#133764ad 77%,#16498440),var(--mk-banner-eyes) right 47% / 72% auto no-repeat,#173e66;
+    }
+  }
+  & :is([data-testid="sidecars-search-input"],[data-testid="customizations-search"]) {
+    color: var(--mk-page-ink); background-color: var(--mk-surface);
+    border: 1px solid var(--mk-line); border-inline-start: 3px solid var(--mk-action); border-radius: 3px 9px 3px 3px;
+  }
+  & [data-testid="automation-group"] {
+    color: var(--mk-page-ink); background: linear-gradient(106deg,var(--mk-tint) 50%,transparent);
+    margin-block: 12px 3px; padding-block: 5px; border-inline-start: 4px solid var(--mk-action); font-weight: 650;
+  }
+  & [data-testid="sidecar-row"] {
+    margin-block: 2px; background-color: var(--mk-surface);
+    border: 1px solid var(--mk-line); border-inline-start: 3px solid var(--mk-line); border-radius: 2px 8px 2px 2px;
+    transition: transform 150ms cubic-bezier(.2,.75,.3,1), border-color 150ms ease, background-color 150ms ease;
+    &:is(:hover,:focus-within) { border-inline-start-color: var(--mk-action); background-color: var(--mk-tint); transform: translateX(3px); }
+  }
+  & [data-testid="sidecar-new-button"], & [data-testid="sidecar-create-with-prompt"] {
+    background: #1e4e80; color: #fff; border: 1px solid #3875a6; border-bottom: 2px solid #54daed; border-radius: 3px 9px 3px 3px;
+    transition: transform 140ms cubic-bezier(.2,.75,.3,1), background-color 140ms ease;
+    &:is(:hover,:focus-visible) { background: #225f9c; transform: translateY(-1px); }
+  }
+  & [data-testid="plugins-tabs"] { border-radius: 3px; background: var(--mk-tint); border-color: var(--mk-line); }
+  & [data-testid="plugins-tabs"] a {
+    border-radius: 2px;
+    color: var(--mk-secondary);
+    transition: background-color 160ms ease, color 160ms ease, box-shadow 160ms ease, transform 150ms cubic-bezier(.18,.82,.25,1);
+  }
+  & [data-testid="plugins-tabs"] a:not([aria-current="page"]) {
+    background: transparent;
+    color: var(--mk-secondary);
+    box-shadow: none;
+    transform: none;
+    &:is(:hover, :focus-visible) {
+      background: color-mix(in srgb, var(--mk-action) 12%, transparent);
+      color: var(--mk-page-ink);
+    }
+  }
+  & [data-testid="plugins-tabs"] a[aria-current="page"] {
+    color: #fff;
+    background: #1c4d80;
+    box-shadow: inset 0 -2px #5fe4f4, 0 2px 8px rgb(28 77 128 / 24%);
+    transform: none;
+  }
+  & :is([data-testid="customization-card"],[data-testid="mcp-server-row"],.agy-spotlight-card) {
+    background-color: var(--mk-surface); border: 1px solid var(--mk-line); border-radius: 4px 14px 4px 4px;
+    transition: transform 160ms cubic-bezier(.2,.75,.3,1), border-color 160ms ease, box-shadow 160ms ease;
+  }
+  & [data-testid="customization-card"]:is(:hover,:focus-within) {
+    border-color: var(--mk-action);
+    transform: translateY(-2px);
+    box-shadow: 2px 4px 12px rgb(16 45 92 / 12%);
+  }
+  & .agy-spotlight-card { border-top: 3px solid #4ccdde; }
+  & [data-testid="featured-carousel-eyebrow"] { color: var(--mk-action); }
+  & [data-testid="customization-section-count"] { color: var(--mk-action); background: var(--mk-tint); border-radius: 2px; }
+}
+/* Theme automation create/edit form panels, inputs, triggers, and action buttons in light and dark modes. */
+html[data-makoto-ui] [data-testid="sidecars-view"] {
+  & input:not([type="checkbox"]):not([type="radio"]):not([data-testid="sidecars-search-input"]) {
+    color: var(--mk-page-ink);
+    caret-color: var(--mk-action);
+    border-bottom: 2px solid color-mix(in srgb, var(--mk-line) 55%, transparent);
+    transition: border-color 150ms ease;
+    &:focus { border-bottom-color: var(--mk-action); outline: none; }
+  }
+  & :is(label, h2:not([data-testid="automation-group"]), h3) {
+    color: var(--mk-page-ink);
+    font-weight: 650;
+    border-inline-start: 3px solid var(--mk-action);
+    padding-inline-start: 8px;
+  }
+  & :is(div, section)[class*="rounded"][class*="border"]:not([data-testid="sidecar-row"]):not([data-testid="sidecars-search-input"]) {
+    background-color: color-mix(in srgb, var(--mk-surface) 92%, transparent);
+    border-color: var(--mk-line);
+    border-radius: 4px 12px 4px 4px;
+    box-shadow: 0 2px 10px rgb(16 45 92 / 6%);
+    transition: border-color 150ms ease, box-shadow 150ms ease, background-color 150ms ease;
+    &:focus-within {
+      border-color: var(--mk-action);
+      box-shadow: 0 0 0 2px color-mix(in srgb, var(--mk-action) 18%, transparent);
+    }
+  }
+  & :is(textarea, [contenteditable="true"]) {
+    color: var(--mk-page-ink);
+    caret-color: var(--mk-action);
+    background-color: color-mix(in srgb, var(--mk-surface) 94%, transparent);
+    border-color: var(--mk-line);
+    border-radius: 4px 12px 4px 4px;
+    transition: border-color 150ms ease, box-shadow 150ms ease;
+    &:focus {
+      border-color: var(--mk-action);
+      box-shadow: 0 0 0 2px color-mix(in srgb, var(--mk-action) 18%, transparent);
+      outline: none;
+    }
+  }
+  & :is(.agy-select-trigger, button[role="combobox"], button[aria-haspopup="listbox"], button[aria-haspopup="menu"]):not([data-testid="sidecar-kebab"]) {
+    color: var(--mk-page-ink);
+    background-color: var(--mk-surface);
+    border: 1px solid var(--mk-line);
+    border-inline-start: 3px solid var(--mk-action);
+    border-radius: 3px 8px 3px 3px;
+    transition: border-color 150ms ease, background-color 150ms ease, transform 140ms cubic-bezier(.18,.82,.25,1);
+    &:is(:hover, :focus-visible, [aria-expanded="true"]) {
+      background-color: var(--mk-tint);
+      border-color: var(--mk-action);
+    }
+  }
+  & button:is([class*="bg-secondary"], [class*="agy-button-secondary"]):not([data-testid="sidecar-new-button"]):not([data-testid="sidecar-create-with-prompt"]):not([role="combobox"]):not([aria-haspopup]) {
+    background: var(--mk-tint);
+    color: var(--mk-page-ink);
+    border: 1px solid var(--mk-line);
+    border-radius: 3px 9px 3px 3px;
+    transition: transform 140ms cubic-bezier(.2,.75,.3,1), background-color 140ms ease, border-color 140ms ease;
+    &:is(:hover, :focus-visible):not(:disabled) {
+      border-color: var(--mk-action);
+      transform: translateY(-1px);
+    }
+  }
+  & button:is([class*="bg-primary"], [class*="agy-button-primary"]) {
+    background: #1e4e80;
+    color: #fff;
+    border: 1px solid #3875a6;
+    border-bottom: 2px solid #54daed;
+    border-radius: 3px 9px 3px 3px;
+    transition: transform 140ms cubic-bezier(.2,.75,.3,1), background-color 140ms ease, opacity 140ms ease;
+    &:is(:hover, :focus-visible):not(:disabled) {
+      background: #225f9c;
+      transform: translateY(-1px);
+    }
+    &:disabled { opacity: .48; }
+  }
+}
+html[data-makoto-ui] [data-testid="sidecars-view"]::after {
+  background: var(--mk-pile-float) 0% center / 500% 100% no-repeat;
+}
+html[data-makoto-ui] [data-testid="sidecars-view"] [data-makoto-page-aura]::before {
+  inset: 14% 12% 10% 18%;
+  border-radius: 50%;
+  border: 1.5px solid var(--mk-page-aura-ring);
+  box-shadow: inset 0 0 28px var(--mk-page-water), 0 0 18px var(--mk-page-water);
+}
+html[data-makoto-ui] [data-testid="sidecars-view"] [data-makoto-page-aura]::after {
+  inset: 24% 22% 18% 28%;
+  border-radius: 50%;
+  border: 1px dashed color-mix(in srgb, var(--mk-page-aura-ring) 78%, transparent);
+}
+html[data-makoto-ui] [data-testid="sidecars-view"] [data-makoto-page-fx] > [data-makoto-butterfly] {
+  top: clamp(104px, 22vh, 185px);
+  right: clamp(28px, 4vw, 68px);
+}
+html[data-makoto-ui] [data-main-content-body] .bg-background.h-full:has([data-testid="plugins-tabs"])::after {
+  background: var(--mk-pile-tarot) 0% center / 500% 100% no-repeat;
+}
+html[data-makoto-ui] [data-main-content-body] .bg-background.h-full:has([data-testid="plugins-tabs"]) [data-makoto-page-aura]::before {
+  inset: 12% 14% 8% 24%;
+  border: 1.5px solid var(--mk-page-aura-ring);
+  border-radius: 6px 18px 6px 6px;
+  background: linear-gradient(142deg, var(--mk-page-water), transparent 65%);
+  transform: rotate(-10deg);
+}
+html[data-makoto-ui] [data-main-content-body] .bg-background.h-full:has([data-testid="plugins-tabs"]) [data-makoto-page-aura]::after {
+  inset: 18% 18% 12% 28%;
+  border: 1px solid color-mix(in srgb, var(--mk-page-aura-ring) 72%, transparent);
+  border-radius: 4px 14px 4px 4px;
+  transform: rotate(7deg);
+}
+html[data-makoto-ui] [data-main-content-body] .bg-background.h-full:has([data-testid="plugins-tabs"]) [data-makoto-page-fx] > [data-makoto-butterfly] {
+  top: clamp(118px, 24vh, 200px);
+  right: clamp(32px, 5vw, 84px);
+}
+
+@keyframes makoto-tarot-cycle {
+  0%, 42%, 47%, 72%, 78.5%, 100% { background-position-x: 0%; }
+  43%, 46% { background-position-x: 25%; }
+  44.2%, 45.2% { background-position-x: 50%; }
+  73.5%, 75.8% { background-position-x: 75%; }
+  75.9%, 78.2% { background-position-x: 100%; }
+}
+@keyframes makoto-float-cycle {
+  0%, 26%, 54%, 82%, 88%, 100% { background-position-x: 0%; }
+  28%, 50% { background-position-x: 25%; }
+  83%, 84.1% { background-position-x: 50%; }
+  84.2%, 85.8% { background-position-x: 75%; }
+  85.9%, 87.2% { background-position-x: 100%; }
+}
+@keyframes makoto-underwater-sway {
+  from { translate: 0 2px; rotate: -.8deg; }
+  to { translate: -4px -7px; rotate: 1deg; }
+}
+@keyframes makoto-aura-float {
+  from { transform: translate3d(0, 3px, 0) scale(.97); opacity: .54; }
+  to { transform: translate3d(-4px, -5px, 0) scale(1.03); opacity: .76; }
+}
+@keyframes makoto-aura-tarot {
+  from { transform: translate3d(0, 2px, 0) rotate(-1deg); opacity: .52; }
+  to { transform: translate3d(-3px, -6px, 0) rotate(1.5deg); opacity: .74; }
+}
+@keyframes makoto-banner-eyes {
+  from { background-position: 0 0, right 48%, 0 0; }
+  to { background-position: 0 0, right 41%, 0 0; }
+}
+@keyframes makoto-overlay-in {
+  from { opacity: 0; transform: translate3d(0, -4px, 0) scale(.985); }
+  to { opacity: 1; transform: translate3d(0, 0, 0) scale(1); }
+}
+
+html[data-makoto-ui] .agy-shell [data-testid="sidebar-navigation-items"] > :is([data-testid="automations-button"],a[href="/customizations"]) {
+  transition: background-color 160ms ease, border-inline-start-color 160ms ease, color 150ms ease, box-shadow 170ms ease, transform 160ms cubic-bezier(.18,.82,.25,1);
+}
+html[data-makoto-ui] .agy-shell [data-testid="sidebar-navigation-items"] > :is([data-testid="automations-button"],a[href="/customizations"]):hover {
+  transform: translateX(3px);
+}
+html[data-makoto-ui] .agy-shell [data-testid="sidebar-navigation-items"] > :is([data-testid="automations-button"],a[href="/customizations"]):is(.active,[aria-current="page"]),
+html[data-makoto-ui] .agy-shell[data-makoto-view="automations"] [data-testid="sidebar-navigation-items"] > [data-testid="automations-button"],
+html[data-makoto-ui] .agy-shell[data-makoto-view="customizations"] [data-testid="sidebar-navigation-items"] > a[href="/customizations"] {
+  background: #245082; border-inline-start-color: #79efff; color: white;
+  transform: translateX(2px);
+  box-shadow: inset 3px 0 #79efff, 0 0 10px rgb(88 232 255 / 20%);
+}
+
+/* Base UI portal menus, dropdowns, submenus, and floating tooltips across sidebar and tool views. */
+html[data-makoto-ui] :is(
+  [data-base-ui-portal] .agy-overlay,
+  .agy-overlay:is([role="menu"], [role="listbox"], :has(> [role="listbox"]), :has(> [role="menu"])),
+  [data-base-ui-portal] :is([role="menu"], [role="listbox"])
+):not(:has(> [data-testid="model-selector-panel"])):not([data-testid="model-selector-panel"] *):not(.settings-modal-container) {
+  background: linear-gradient(158deg, #163055 0%, #122645 64%, #0f1f3a 100%) !important;
+  color: #eef6ff !important;
+  border: 1px solid #486f95 !important;
+  border-top: 3px solid #62e4f4 !important;
+  border-radius: 3px 10px 3px 3px !important;
+  box-shadow: 3px 4px 0 rgb(11 28 56 / 58%), 0 10px 26px rgb(9 22 44 / 42%) !important;
+  --background: #122645;
+  --foreground: #eef6ff;
+  --secondary-foreground: #c8def5;
+  --muted-foreground: #9ec0e0;
+  --card: #122645;
+  --popover: #122645;
+  --border: #385b82;
+  --muted: #22446a;
+  --secondary: #22446a;
+  --primary: #63edff;
+  --color-background: #122645;
+  --color-foreground: #eef6ff;
+  --color-secondary-foreground: #c8def5;
+  --color-muted-foreground: #9ec0e0;
+  --color-card: #122645;
+  --color-popover: #122645;
+  --color-border: #385b82;
+  --color-muted: #22446a;
+  --color-secondary: #22446a;
+  --color-primary: #63edff;
+  scrollbar-color: #547494 transparent;
+  & [role="separator"], & .h-px {
+    background-color: #35587c !important;
+  }
+  & :is(.agy-overlay-item, [role="menuitem"], [role="menuitemcheckbox"], [role="menuitemradio"], [role="option"]) {
+    color: #e6f2ff;
+    border-radius: 2px;
+    border-inline-start: 3px solid transparent;
+    transition: background-color 120ms ease, border-inline-start-color 120ms ease, color 120ms ease, transform 120ms cubic-bezier(.18,.82,.25,1);
+    & .text-muted-foreground, & .text-secondary-foreground { color: #a8c7e4; }
+    &:is(:hover, :focus-visible, [data-highlighted], [aria-expanded="true"], [data-selected]):not([aria-disabled="true"]) {
+      background-color: #245082 !important;
+      border-inline-start-color: #79efff;
+      color: #fff;
+      transform: translateX(2px);
+      & .text-muted-foreground, & .text-secondary-foreground { color: #dcf4ff; }
+    }
+    &:is([aria-checked="true"], [aria-selected="true"]) {
+      background-color: #1c416b;
+      border-inline-start-color: #5ce4f7;
+      color: #fff;
+    }
+  }
+}
+html[data-makoto-ui] :is(
+  [role="tooltip"],
+  .react-tooltip,
+  [class*="react-tooltip"],
+  [data-slot*="tooltip"],
+  [data-testid*="tooltip"]
+) {
+  background: #142b4e !important;
+  color: #eef7ff !important;
+  border: 1px solid #4d78a0 !important;
+  border-bottom: 2px solid #5fe4f4 !important;
+  border-radius: 3px 8px 3px 3px !important;
+  box-shadow: 0 4px 12px rgb(9 22 44 / 40%) !important;
+}
+
+/* The mod's SYSTEM illustration hangs from the upper edge of the settings header. */
+html[data-makoto-ui] .settings-modal-container {
+  container-type: inline-size;
+  isolation: isolate;
+  background: linear-gradient(118deg, transparent 85%, var(--settings-fill) 85.2% 92%, transparent 92.2%), var(--settings-page) !important;
+  & > button[data-autofocus] {
+    transition: background-color 160ms ease, color 160ms ease, transform 160ms cubic-bezier(.18,.82,.25,1);
+    &:hover { transform: scale(1.06); }
+  }
+  & [data-makoto-settings-water] {
+    position: absolute;
+    inset: 0 0 0 auto;
+    width: clamp(72px, 16%, 190px);
+    pointer-events: none;
+    overflow: hidden;
+    z-index: 0;
+    mask-image: linear-gradient(0deg, transparent, black 12% 88%, transparent);
+    &::before, &::after {
+      content: "";
+      position: absolute;
+      inset: 0 0 -211px;
+      background-size: 100% 211px;
+    }
+    &::before {
+      background-image:
+        radial-gradient(circle at 32% 20%, transparent 3.4px, color-mix(in srgb, var(--settings-accent) 34%, #a8f4ff) 4px 4.6px, transparent 5.3px),
+        radial-gradient(circle at 76% 64%, transparent 5.2px, color-mix(in srgb, var(--settings-accent) 28%, #9beeff) 5.8px 6.4px, transparent 7.2px),
+        radial-gradient(circle at 58% 86%, color-mix(in srgb, var(--settings-accent) 34%, #d4fcff) 1.1px, transparent 2.2px);
+      opacity: .64;
+    }
+    &::after {
+      background-image:
+        radial-gradient(circle at 60% 36%, transparent 2.2px, color-mix(in srgb, var(--settings-accent) 30%, #bff8ff) 2.7px 3.2px, transparent 4px),
+        radial-gradient(circle at 86% 12%, color-mix(in srgb, var(--settings-accent) 32%, #e0ffff) 1px, transparent 2px),
+        radial-gradient(circle at 22% 76%, transparent 1.8px, color-mix(in srgb, var(--settings-accent) 26%, #a6f2ff) 2.3px 2.8px, transparent 3.5px);
+      opacity: .56;
+    }
+  }
+  & [data-testid="settings-sidebar"] {
+    position: relative;
+    z-index: 2;
+    & [data-testid="settings-nav-item-Account"] {
+      transition: background-color 170ms ease, border-inline-start-color 170ms ease, transform 170ms cubic-bezier(.18,.82,.25,1);
+      &:hover { transform: translateX(2px); }
+    }
+    & button[data-testid^="settings-nav-item-"]:not([data-testid="settings-nav-item-Account"]) {
+      transition: color 170ms ease;
+      &::before {
+        transition: transform 180ms cubic-bezier(.18,.82,.25,1), inset-inline-end 180ms cubic-bezier(.18,.82,.25,1), filter 180ms ease;
+      }
+      &.bg-sidebar-secondary::before {
+        transform: translateX(2px);
+        filter: drop-shadow(0 0 5px rgb(255 90 166 / 26%));
+      }
+      &:is(:hover, :focus-visible)::before {
+        transform: translateX(4px);
+        filter: drop-shadow(0 0 7px rgb(88 232 255 / 40%));
+      }
+      &.bg-sidebar-secondary::after {
+        box-shadow: 0 0 6px rgb(255 90 166 / 52%);
+      }
+    }
+  }
+  & .h-full.overflow-y-auto:has(> .max-w-2xl) {
+    position: relative;
+    z-index: 1;
+    background: transparent !important;
+  }
+  & .agy-card {
+    transition: border-color 160ms ease, box-shadow 160ms ease;
+    &:hover {
+      border-color: color-mix(in srgb, var(--settings-accent) 55%, var(--settings-edge)) !important;
+      box-shadow: 0 3px 12px rgb(16 45 92 / 8%);
+    }
+  }
+  & .agy-select-trigger[role="combobox"],
+  & [role="switch"],
+  & [role="radio"],
+  & [data-slot][role="group"] button {
+    transition: background-color 150ms ease, border-color 150ms ease, color 150ms ease, box-shadow 150ms ease, outline-color 150ms ease;
+  }
+  & .max-w-2xl > :first-child:has(h2.text-2xl) {
+    position: relative; isolation: isolate; overflow: hidden;
+    box-sizing: border-box; min-height: 118px; justify-content: center;
+    padding: 15px clamp(104px,18cqw,155px) 15px 18px;
+    border: 0; border-block-end: 3px solid #58d9ed; border-radius: 3px 13px 3px 3px;
+    color: white;
+    background: linear-gradient(112deg, #102643 5%,#163f69 57%,#206fa5 57.2%,#17477f 82%,#123057);
+    & > :not([data-makoto-settings-dive]) { position: relative; z-index: 2; }
+    & h2.text-2xl { color: #f4fdff; border-inline-start: 0; padding: 0; }
+    & :is(.text-muted-foreground,.text-secondary-foreground) { color: #c7e6f4; }
+    &::before {
+      content:""; position:absolute; top:0; right:3%; width:40%; height:calc(100% + 140px); pointer-events:none; z-index: 0;
+      background-size: 100% 140px;
+      background-image:
+        radial-gradient(circle at 14% 76%, transparent 3.8px,#8deaf08c 4.2px 5px,transparent 5.6px),
+        radial-gradient(circle at 45% 31%, transparent 2px,#a1f9ffa4 2.4px 3.1px,transparent 3.8px),
+        radial-gradient(circle at 71% 83%, transparent 4.8px,#84deff78 5.2px 6px,transparent 6.7px),
+        radial-gradient(circle at 88% 52%, #9aefff94 1.1px,transparent 3px);
+      mask-image: linear-gradient(0deg, transparent, black 16% 84%, transparent);
+    }
+    & [data-makoto-settings-dive] {
+      position: absolute;
+      pointer-events: none;
+      z-index: 1;
+      will-change: transform;
+    }
+    &::after {
+      content:""; position:absolute; pointer-events:none; top:-2px; right:7%; z-index: 2;
+      height:calc(100% - 2px); max-height:155px; aspect-ratio:150 / 210;
+      transform-origin:50% 0; background: var(--mk-system-art) 0% center / 500% 100% no-repeat;
+      filter: drop-shadow(6px 2px 0 rgb(88 232 255 / 26%)) brightness(1);
+    }
+  }
+}
+@container (max-width: 600px) {
+  html[data-makoto-ui] .settings-modal-container .max-w-2xl > :first-child:has(h2.text-2xl) { padding-inline: 12px 64px; min-height: 92px; }
+  html[data-makoto-ui] .settings-modal-container .max-w-2xl > :first-child:has(h2.text-2xl)::after { right: 1%; max-height: 89px; }
+}
+@keyframes makoto-settings-backdrop-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes makoto-settings-listbox-in {
+  from { opacity: 0; transform: translateY(-4px) scale(.985); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+@keyframes makoto-settings-eyes {
+  from { background-position: 0 0, right 44%, 0 0; }
+  to { background-position: 0 0, right 37%, 0 0; }
+}
+@keyframes makoto-nav-diamond-in {
+  0% { opacity: 0; transform: rotate(0deg) scale(0); }
+  65% { opacity: 1; transform: rotate(45deg) scale(1.2); }
+  100% { opacity: 1; transform: rotate(45deg) scale(1); }
+}
+@keyframes makoto-nav-diamond-glow {
+  0%, 100% { box-shadow: 0 0 5px rgb(255 90 166 / 46%); }
+  50% { box-shadow: 0 0 10px rgb(255 122 186 / 82%); }
+}
+@keyframes makoto-system-sway {
+  0%, 100% { transform: rotate(0deg) translateY(0px); }
+  25% { transform: rotate(-2deg) translateY(-2px); }
+  75% { transform: rotate(2deg) translateY(1.5px); }
+}
+@keyframes makoto-settings-bubbles-rise {
+  to { transform: translateY(-140px); }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html[data-makoto-ui] .settings-modal-backdrop {
+    animation: makoto-settings-backdrop-in 180ms ease-out;
+  }
+  html[data-makoto-ui] :is([data-testid="sidecars-view"],[data-main-content-body] .bg-background.h-full:has([data-testid="plugins-tabs"]))::before {
+    animation: makoto-water-rise 22s linear infinite;
+  }
+  html[data-makoto-ui] :is([data-testid="sidecars-view"],[data-main-content-body] .bg-background.h-full:has([data-testid="plugins-tabs"])) [data-makoto-page-water]::before {
+    animation: makoto-water-drift 8.2s ease-in-out infinite alternate;
+  }
+  html[data-makoto-ui] :is([data-testid="sidecars-view"],[data-main-content-body] .bg-background.h-full:has([data-testid="plugins-tabs"])) [data-makoto-page-water]::after {
+    animation: makoto-water-rise 28s linear -11s infinite;
+  }
+  html[data-makoto-ui] [data-testid="sidecars-view"]::after {
+    animation: makoto-float-cycle 6.4s step-end infinite, makoto-underwater-sway 5.2s ease-in-out infinite alternate;
+    animation-delay: var(--mk-page-cycle-delay, 0s), var(--mk-page-float-delay, 0s);
+  }
+  html[data-makoto-ui] [data-testid="sidecars-view"] [data-makoto-page-aura] {
+    animation: makoto-aura-float 6.4s ease-in-out infinite alternate;
+    animation-delay: var(--mk-page-float-delay, 0s);
+  }
+  html[data-makoto-ui] [data-main-content-body] .bg-background.h-full:has([data-testid="plugins-tabs"])::after {
+    animation: makoto-tarot-cycle 6.8s step-end infinite, makoto-portrait-drift 4.8s ease-in-out infinite alternate;
+    animation-delay: var(--mk-page-cycle-delay, 0s), var(--mk-page-float-delay, 0s);
+  }
+  html[data-makoto-ui] [data-main-content-body] .bg-background.h-full:has([data-testid="plugins-tabs"]) [data-makoto-page-aura] {
+    animation: makoto-aura-tarot 7.2s ease-in-out infinite alternate;
+    animation-delay: var(--mk-page-float-delay, 0s);
+  }
+  html[data-makoto-ui] :is([data-testid="sidecars-view"],[data-main-content-body] .bg-background.h-full:has([data-testid="plugins-tabs"])) [data-makoto-page-sweep][data-active] {
+    animation: makoto-view-sweep 420ms cubic-bezier(.16, .84, .24, 1) forwards;
+  }
+  html[data-makoto-ui] :is([data-testid="sidecars-view"],[data-main-content-body] .bg-background.h-full:has([data-testid="plugins-tabs"])) h1::before {
+    animation: makoto-banner-eyes 6.8s ease-in-out infinite alternate;
+  }
+  html[data-makoto-ui] .settings-modal-container [data-makoto-settings-water]::before {
+    animation: makoto-water-rise 18s linear infinite;
+  }
+  html[data-makoto-ui] .settings-modal-container [data-makoto-settings-water]::after {
+    animation: makoto-water-rise 27s linear -9s infinite;
+  }
+  html[data-makoto-ui] .settings-modal-container [data-testid="settings-sidebar"] h1 {
+    animation: makoto-settings-eyes 7.2s ease-in-out infinite alternate;
+  }
+  html[data-makoto-ui] .settings-modal-container [data-testid="settings-sidebar"] button[data-testid^="settings-nav-item-"]:not([data-testid="settings-nav-item-Account"]).bg-sidebar-secondary::after {
+    animation: makoto-nav-diamond-in 200ms cubic-bezier(.2,.9,.3,1.15) both, makoto-nav-diamond-glow 3.2s ease-in-out 200ms infinite;
+  }
+  html[data-makoto-ui] .settings-modal-container .max-w-2xl > :first-child:has(h2.text-2xl)::before {
+    animation: makoto-settings-bubbles-rise 14s linear infinite;
+  }
+  html[data-makoto-ui] .settings-modal-container .max-w-2xl > :first-child:has(h2.text-2xl)::after {
+    animation: makoto-system-sway 5.2s ease-in-out infinite, makoto-blink 6.4s step-end infinite;
+    animation-delay: var(--mk-sway-delay, 0s), var(--mk-blink-delay, 0s);
+  }
+  html[data-makoto-ui] :is(
+    [data-base-ui-portal] .agy-overlay,
+    .agy-overlay:is([role="menu"], [role="listbox"], :has(> [role="listbox"]), :has(> [role="menu"])),
+    [data-base-ui-portal] :is([role="menu"], [role="listbox"])
+  ):not(:has(> [data-testid="model-selector-panel"])):not([data-testid="model-selector-panel"] *):not(.settings-modal-container) {
+    transform-origin: top center;
+    animation: makoto-overlay-in 145ms cubic-bezier(.18,.82,.25,1) both;
+  }
+  html[data-makoto-ui] .settings-modal-backdrop .agy-overlay:has(> [role="listbox"]) {
+    transform-origin: top center;
+    animation: makoto-settings-listbox-in 150ms cubic-bezier(.18,.82,.25,1) both;
+  }
+}
+html[data-makoto-paused] [data-makoto-butterfly],
+html[data-makoto-paused] [data-makoto-butterfly]::before,
+html[data-makoto-paused] [data-makoto-butterfly]::after,
+html[data-makoto-paused] [data-makoto-chat] :has(> [data-markdown-root])::after,
+html[data-makoto-paused] :is([data-testid="sidecars-view"],[data-main-content-body] .bg-background.h-full:has([data-testid="plugins-tabs"]))::before,
+html[data-makoto-paused] :is([data-testid="sidecars-view"],[data-main-content-body] .bg-background.h-full:has([data-testid="plugins-tabs"]))::after,
+html[data-makoto-paused] :is([data-testid="sidecars-view"],[data-main-content-body] .bg-background.h-full:has([data-testid="plugins-tabs"])) [data-makoto-page-water]::before,
+html[data-makoto-paused] :is([data-testid="sidecars-view"],[data-main-content-body] .bg-background.h-full:has([data-testid="plugins-tabs"])) [data-makoto-page-water]::after,
+html[data-makoto-paused] :is([data-testid="sidecars-view"],[data-main-content-body] .bg-background.h-full:has([data-testid="plugins-tabs"])) [data-makoto-page-aura],
+html[data-makoto-paused] :is([data-testid="sidecars-view"],[data-main-content-body] .bg-background.h-full:has([data-testid="plugins-tabs"])) [data-makoto-page-sweep],
+html[data-makoto-paused] :is([data-testid="sidecars-view"],[data-main-content-body] .bg-background.h-full:has([data-testid="plugins-tabs"])) h1::before,
+html[data-makoto-paused] .settings-modal-container [data-makoto-settings-water]::before,
+html[data-makoto-paused] .settings-modal-container [data-makoto-settings-water]::after,
+html[data-makoto-paused] .settings-modal-container [data-testid="settings-sidebar"] h1,
+html[data-makoto-paused] .settings-modal-container [data-testid="settings-sidebar"] button.bg-sidebar-secondary::after,
+html[data-makoto-paused] .settings-modal-container .max-w-2xl > :first-child:has(h2.text-2xl)::before,
+html[data-makoto-paused] .settings-modal-container .max-w-2xl > :first-child:has(h2.text-2xl)::after { animation-play-state: paused !important; }

@@ -1,0 +1,15 @@
+const MAKOTO_MARKER = '__ANTIGRAVITY_MAKOTO_MOTION__';
+
+function installMakotoExtension(candidate, version) {
+    const directory = path.join(__dirname, 'makoto-motion');
+    if (!fs.existsSync(path.join(directory, 'enabled'))) return;
+    try {
+        const { applyMakoto } = require(path.join(directory, 'patch.cjs'));
+        const backup = path.join(directory, 'backups', version, 'app.asar');
+        fs.mkdirSync(path.dirname(backup), { recursive: true });
+        if (!fs.existsSync(backup)) fs.copyFileSync(candidate, backup, fs.constants.COPYFILE_EXCL);
+        applyMakoto(candidate);
+    } catch (error) {
+        console.log('[Makoto] 当前版本保留中文界面，结城理主题待适配：' + error.message);
+    }
+}

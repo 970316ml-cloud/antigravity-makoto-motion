@@ -1,0 +1,6 @@
+stage-test/
+.makoto-stage-*/
+*.tmp
+*.bak
+Thumbs.db
+.DS_Store

@@ -1,0 +1,281 @@
+/* The eyes, wing layers, dive splash, Arcana ghost and highlighted command are the mod's original artwork. */
+html[data-makoto-ui] {
+  --mk-blink: url(makoto:blink);
+  --mk-command-selected: url(makoto:command-selected);
+  --mk-nameplate-ghost: url(makoto:nameplate-ghost);
+}
+[data-testid="sidebar-navigation-items"]:has(> [data-makoto-butterfly]) { position: relative; }
+[data-makoto-butterfly] {
+  pointer-events: none;
+  position: absolute;
+  display: block;
+  aspect-ratio: 1;
+  width: 37px;
+  top: 8px;
+  right: 11%;
+  z-index: 1;
+  background: url(makoto:body) center / contain no-repeat;
+  transform: rotate(-12deg);
+}
+[data-makoto-butterfly]::before, [data-makoto-butterfly]::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: center / contain no-repeat;
+  transform-origin: 50% 50%;
+}
+[data-makoto-butterfly]::before { background-image: url(makoto:wing-left); }
+[data-makoto-butterfly]::after { background-image: url(makoto:wing-right); }
+[data-makoto-layer] > [data-makoto-butterfly] { display: none; }
+[data-makoto-chat]:has(.agy-home) [data-makoto-layer] > [data-makoto-butterfly] {
+  display: block; top: 20%; right: 34%;
+  width: clamp(34px, 5.8cqw, 84px);
+}
+@media (max-height: 540px) {
+  [data-testid="sidebar-navigation-items"] > [data-makoto-butterfly] { display: none; }
+}
+
+/* Home nameplate pairs the mod's "0 結城 理" plate with the drifting "愚者" Arcana watermark. */
+[data-makoto-chat] [data-testid="home-greeting"]::before {
+  background:
+    var(--mk-nameplate-ghost) 0px 0px / 100% 100% no-repeat,
+    url(makoto:nameplate) 0 0 / 100% 100% no-repeat;
+}
+@keyframes makoto-fool-drift {
+  0%, 100% { background-position: 0px 0px, 0 0; }
+  50% { background-position: -6px -3px, 0 0; }
+}
+
+html[data-makoto-ui] .agy-shell [data-testid="sidebar-navigation-items"] > [data-testid="new-conversation-button"]:is(:hover,:focus-visible),
+html[data-makoto-ui] .agy-shell [data-testid="settings-button"]:is(:hover,:focus-visible)::before,
+html[data-makoto-ui] .settings-modal-container [data-testid="settings-sidebar"] button[data-testid^="settings-nav-item-"]:not([data-testid="settings-nav-item-Account"]):is(:hover,:focus-visible)::before {
+  background-image: var(--mk-command-selected) !important;
+}
+@keyframes makoto-blink {
+  0%, 84%, 89%, 100% { background-position-x: 0%; }
+  84.8%, 88.3% { background-position-x: 25%; }
+  85.5%, 87.7% { background-position-x: 50%; }
+  86%, 87.2% { background-position-x: 75%; }
+  86.5% { background-position-x: 100%; }
+}
+@keyframes makoto-wing { from { transform: scaleX(.40); } to { transform: scaleX(1); } }
+
+[data-makoto-water] {
+  position: absolute; pointer-events: none; overflow: hidden;
+  inset: 0 0 0 auto; width: clamp(54px, 8.5%, 116px);
+  --mk-water-line: color-mix(in srgb, var(--mk-accent) 24%, transparent);
+}
+[data-makoto-water]::before {
+  content: ""; position: absolute; inset: -8px -9px;
+  background:
+    radial-gradient(ellipse 110px 32px at calc(100% + 25px) 32%, transparent 76%, var(--mk-water-line) 78%, transparent 81%),
+    radial-gradient(ellipse 94px 24px at calc(100% + 17px) calc(32% + 2px), transparent 76%, var(--mk-water-line) 78%, transparent 82%),
+    radial-gradient(ellipse 86px 23px at calc(100% + 20px) 74%, transparent 76%, var(--mk-water-line) 78%, transparent 82%);
+}
+[data-makoto-water]::after {
+  content: ""; position: absolute; inset: 0 0 -211px;
+  background-size: 100% 211px;
+  background-image:
+    radial-gradient(circle at 62% 24%, transparent 2.4px, color-mix(in srgb, var(--mk-accent) 32%, #bffaff) 2.9px 3.4px, transparent 4.2px),
+    radial-gradient(circle at 36% 71%, transparent 1.6px, color-mix(in srgb, var(--mk-accent) 26%, #bffaff) 2.1px 2.6px, transparent 3.3px),
+    radial-gradient(circle at 78% 88%, color-mix(in srgb, var(--mk-accent) 28%, #d8ffff) 1px, transparent 2px);
+  opacity: .58;
+}
+[data-makoto-chat]:has(.agy-home) [data-makoto-water] {
+  right: 1.5%; width: clamp(95px, 26%, 335px);
+  mask-image: linear-gradient(0deg,transparent,black 12% 85%,transparent);
+  &::before, &::after {
+    content: ""; position: absolute; inset: 0 0 -211px;
+    background-size: 100% 211px;
+    opacity: 1;
+  }
+  &::before {
+    background-image:
+      radial-gradient(circle at 28% 18%, transparent 4px, #c5faffb8 4.6px 5.1px, transparent 5.8px),
+      radial-gradient(circle at 82% 67%, transparent 7px, #b5f7ff8a 7.6px 8.2px, transparent 9px),
+      radial-gradient(circle at 64% 84%, #cbfaff94 1px, transparent 2.1px);
+  }
+  &::after {
+    background-image:
+      radial-gradient(circle at 55% 38%, transparent 2.5px, #cefaffac 3px 3.5px, transparent 4.3px),
+      radial-gradient(circle at 91% 9%, #d8ffffb0 1px, transparent 2px),
+      radial-gradient(circle at 16% 77%, transparent 1.8px, #b4fcff91 2.3px 2.7px, transparent 3.4px);
+  }
+}
+@keyframes makoto-water-rise { to { transform: translateY(-211px); } }
+@keyframes makoto-water-drift { from { transform: translate(0,-3px); } to { transform: translate(-5px,4px); } }
+
+/* P3R diagonal cyan light sweep across the background layer on conversation/view switches. */
+[data-makoto-sweep] {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0;
+  z-index: 1;
+  will-change: transform, opacity;
+  background: linear-gradient(112deg, transparent 22%, rgb(86 226 255 / 16%) 46%, rgb(168 248 255 / 26%) 51%, rgb(48 164 255 / 12%) 58%, transparent 78%);
+  transform: translate3d(38%, 0, 0);
+}
+:is(.theme-dark, .dark, [data-theme="dark"]) [data-makoto-sweep] {
+  background: linear-gradient(112deg, transparent 22%, rgb(72 224 255 / 18%) 46%, rgb(156 246 255 / 30%) 51%, rgb(38 148 245 / 14%) 58%, transparent 78%);
+}
+@keyframes makoto-view-sweep {
+  0% { opacity: 0; transform: translate3d(42%, 0, 0); }
+  24% { opacity: 1; }
+  100% { opacity: 0; transform: translate3d(-46%, 0, 0); }
+}
+
+/* Fitted Canvas container for native-refresh-rate P3R liquid splash. */
+[data-makoto-dive] {
+  position: absolute;
+  pointer-events: none;
+  z-index: 1;
+  will-change: transform;
+}
+
+[data-makoto-portrait] {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  height: 82%;
+  width: auto;
+  max-width: none;
+  pointer-events: none;
+  visibility: hidden;
+  will-change: transform, opacity;
+  filter: drop-shadow(8px -3px 0 rgba(62, 224, 255, 0.18)) brightness(1);
+}
+[data-makoto-chat] {
+  --mk-chat-portrait-opacity: .22;
+}
+:is(.theme-dark, .dark, [data-theme="dark"]) [data-makoto-chat] {
+  --mk-chat-portrait-opacity: .32;
+}
+@container makoto-chat (max-width: 620px) {
+  [data-makoto-layer] { --mk-chat-portrait-opacity: .15; }
+}
+[data-makoto-chat]:not(:has(.agy-home)) [data-makoto-layer]::before,
+[data-makoto-chat]:not(:has(.agy-home)) [data-makoto-portrait] {
+  opacity: var(--mk-chat-portrait-opacity);
+}
+[data-makoto-chat]:has(.agy-home) [data-makoto-portrait] {
+  height: 100%;
+  max-height: 100%;
+  max-width: 100%;
+  object-fit: contain;
+  object-position: right bottom;
+  opacity: 1;
+  inset-block-end: -8px;
+  filter: drop-shadow(11px -4px 0 rgba(78, 236, 255, 0.26)) brightness(1);
+}
+@container makoto-chat (max-width: 620px) {
+  [data-makoto-chat]:has(.agy-home) [data-makoto-portrait] {
+    height: 72%;
+    right: -10cqw;
+    mask-image: linear-gradient(90deg, transparent 38%, #000 70%);
+  }
+}
+@container makoto-chat (max-width: 380px) {
+  [data-makoto-chat]:has(.agy-home) [data-makoto-portrait] {
+    opacity: .42;
+  }
+}
+
+/* Use independent translate property for ambient float so WAAPI transform entrance composes cleanly. */
+@keyframes makoto-portrait-drift {
+  0%, 100% { translate: 0 0; }
+  50% { translate: 0 -7px; }
+}
+@keyframes makoto-diamond-pulse {
+  0%, 100% { transform: rotate(45deg) scale(1); box-shadow: 0 0 4px #4ed3f3; }
+  50% { transform: rotate(45deg) scale(1.22); box-shadow: 0 0 9px #84f5ff; }
+}
+@keyframes makoto-dialog-edge-pulse {
+  0%, 100% { border-top-color: #63e1f5; }
+  50% { border-top-color: #a6f6ff; }
+}
+@keyframes makoto-bubble-in {
+  from { opacity: 0; translate: 0 6px; }
+  to { opacity: 1; translate: 0 0; }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  [data-makoto-portrait][data-ready] { visibility: visible; }
+  [data-makoto-layer]:has(> [data-makoto-portrait][data-ready])::before { visibility: hidden; }
+  [data-makoto-chat]:has(.agy-home) [data-makoto-layer]::before,
+  [data-makoto-chat]:has(.agy-home) [data-makoto-portrait] {
+    inset-block-end: -8px;
+    animation: makoto-portrait-drift 5.6s ease-in-out infinite;
+  }
+  [data-makoto-chat] [data-testid="home-greeting"]::before {
+    animation: makoto-fool-drift 5.4s ease-in-out infinite;
+  }
+  [data-makoto-sweep][data-active] {
+    animation: makoto-view-sweep 420ms cubic-bezier(.16, .84, .24, 1) forwards;
+  }
+  [data-makoto-water]::before { animation: makoto-water-drift 7s ease-in-out infinite alternate; }
+  [data-makoto-water]::after { animation: makoto-water-rise 24s linear infinite; }
+  [data-makoto-chat]:has(.agy-home) [data-makoto-water]::before { animation: makoto-water-rise 19s linear infinite; }
+  [data-makoto-chat]:has(.agy-home) [data-makoto-water]::after { animation: makoto-water-rise 29s linear -12s infinite; }
+}
+
+html[data-makoto-paused] [data-makoto-water]::before,
+html[data-makoto-paused] [data-makoto-water]::after,
+html[data-makoto-paused] [data-makoto-layer]::before,
+html[data-makoto-paused] [data-makoto-portrait],
+html[data-makoto-paused] [data-makoto-sweep],
+html[data-makoto-paused] [data-makoto-chat] [data-testid="home-greeting"]::before,
+html[data-makoto-paused] [data-testid="status-unread-dot"] > :last-child,
+html[data-makoto-paused] [data-makoto-latest]::before { animation-play-state: paused !important; }
+
+@keyframes makoto-float {
+  0%, 100% { transform: translate(0,0) rotate(-12deg); }
+  46% { transform: translate(9px,-5px) rotate(3deg); }
+  73% { transform: translate(4px,2px) rotate(-7deg); }
+}
+@media (prefers-reduced-motion: no-preference) {
+  [data-makoto-chat] :is([data-makoto-latest],[data-testid="planner-response-text"]:hover,[data-testid="agent-response"] [data-step-list] > div:hover):has(> [data-markdown-root]:not(:empty))::after {
+    animation: makoto-blink 5.6s step-end infinite;
+  }
+  [data-makoto-chat] [data-makoto-latest]:has(> [data-markdown-root]:not(:empty))::before {
+    animation: makoto-dialog-edge-pulse 3.6s ease-in-out infinite;
+  }
+  [data-makoto-chat] [data-makoto-bubble-enter] {
+    animation: makoto-bubble-in 210ms cubic-bezier(.18, .82, .25, 1) both;
+  }
+  [data-makoto-butterfly] { animation: makoto-float 5.2s ease-in-out infinite; }
+  [data-makoto-butterfly]::before, [data-makoto-butterfly]::after { animation: makoto-wing .62s ease-in-out infinite alternate; }
+  html[data-makoto-ui] .agy-shell [data-testid="status-unread-dot"] > :last-child {
+    animation: makoto-diamond-pulse 2.8s ease-in-out infinite;
+  }
+  html[data-makoto-ui] .agy-shell :is([data-testid="new-conversation-button"],[data-testid="settings-button"]) {
+    transition: transform 150ms cubic-bezier(.18,.82,.25,1), filter 160ms ease, background-color 150ms ease;
+  }
+  html[data-makoto-ui] .agy-shell :is([data-testid="new-conversation-button"],[data-testid="settings-button"]):is(:hover,:focus-visible) {
+    transform: translateX(3px);
+    filter: drop-shadow(0 0 6px rgb(88 232 255 / 38%));
+  }
+  html[data-makoto-ui] .agy-shell [data-testid="sidebar-navigation-items"] > :is(a,button):not([data-testid="new-conversation-button"]),
+  html[data-makoto-ui] .agy-shell [data-testid="project-header"] {
+    transition: background-color 160ms ease, border-inline-start-color 160ms ease, color 150ms ease, transform 160ms cubic-bezier(.18,.82,.25,1);
+  }
+  html[data-makoto-ui] .agy-shell .agy-sidebar-row {
+    contain: layout style;
+    transition: transform 140ms cubic-bezier(.18,.82,.25,1), background-color 110ms ease, color 110ms ease;
+  }
+  html[data-makoto-ui] .agy-shell .agy-sidebar-row::before {
+    transition: background-color 140ms ease, transform 140ms cubic-bezier(.18,.82,.25,1);
+  }
+  html[data-makoto-ui] .agy-shell .agy-sidebar-row[data-selected="true"] {
+    transform: translateX(2px);
+  }
+  html[data-makoto-ui] .agy-shell .agy-sidebar-row[data-selected="true"]::before {
+    box-shadow: 0 0 6px rgb(110 238 255 / 55%);
+  }
+  html[data-makoto-ui] .agy-shell .agy-sidebar-row:hover {
+    transform: translateX(3px);
+  }
+  html[data-makoto-ui] .agy-shell .agy-sidebar-row:active {
+    transform: translateX(1px);
+  }
+}
