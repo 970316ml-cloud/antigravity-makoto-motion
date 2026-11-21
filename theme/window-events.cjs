@@ -1,6 +1,20 @@
 'use strict';
+const fs = require('node:fs');
 const path = require('node:path');
+const crypto = require('node:crypto');
 const { execFile } = require('node:child_process');
+
+function verifyHelperBinary(exePath, shaPath) {
+    try {
+        if (!fs.existsSync(exePath) || !fs.existsSync(shaPath)) return false;
+        const expected = fs.readFileSync(shaPath, 'utf8').trim().toLowerCase();
+        if (!/^[a-f0-9]{64}$/.test(expected)) return false;
+        const actual = crypto.createHash('sha256').update(fs.readFileSync(exePath)).digest('hex');
+        return actual === expected;
+    } catch {
+        return false;
+    }
+}
 
 function revealPaintedHub(window, contents) {
     let opacity = null, paintTimer, deadline;
@@ -57,8 +71,14 @@ function watchHubWindows(app, { BaseWindow, webContents }) {
             const hwnd = native.length === 8 ? native.readBigUInt64LE() : native.readUInt32LE();
             applied.add(window);
             revealPaintedHub(window, contents);
-            execFile(path.join(__dirname, 'WindowTransitions.exe'), [String(hwnd), String(process.pid)],
-                { windowsHide: true }, err => { if (err) console.warn('[Makoto] Window transition:', err.message); });
+            const helperExe = path.join(__dirname, 'WindowTransitions.exe');
+            const helperSha = path.join(__dirname, 'WindowTransitions.sha256');
+            if (!verifyHelperBinary(helperExe, helperSha)) {
+                console.warn('[Makoto] Window transition helper skipped (missing or SHA-256 mismatch):', helperExe);
+            } else {
+                execFile(helperExe, [String(hwnd), String(process.pid)],
+                    { windowsHide: true }, err => { if (err) console.warn('[Makoto] Window transition:', err.message); });
+            }
         }
         return true;
     }
@@ -70,4 +90,4 @@ function watchHubWindows(app, { BaseWindow, webContents }) {
     app.on('web-contents-created', (_event, contents) => observe(contents));
     app.whenReady().then(() => webContents.getAllWebContents().forEach(observe));
 }
-module.exports = { watchHubWindows };
+module.exports = { watchHubWindows, verifyHelperBinary };

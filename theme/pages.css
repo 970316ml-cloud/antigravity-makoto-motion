@@ -564,8 +564,19 @@ html[data-makoto-ui] .agy-shell [data-makoto-sidepane]:not(:has([data-main-conte
   --primary: #1c5393;
   --primary-foreground: #ffffff;
   border-inline-start: 1px solid var(--border);
-  background-color: var(--background);
   color: var(--foreground);
+  &:not(:has([data-browser-hole]:not([data-browser-hole="false"]))) {
+    background-color: var(--background);
+  }
+  &:has([data-browser-hole]:not([data-browser-hole="false"])) {
+    background: transparent !important;
+    & :has([data-browser-hole]:not([data-browser-hole="false"])) {
+      background: transparent !important;
+    }
+    & .browser-hole-opaque:not(:has([data-browser-hole]:not([data-browser-hole="false"]))) {
+      background-color: var(--background);
+    }
+  }
   & [data-browser-hole]:not([data-browser-hole="false"]) {
     background: transparent !important;
   }

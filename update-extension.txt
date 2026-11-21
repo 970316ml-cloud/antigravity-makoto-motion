@@ -4,11 +4,35 @@ function installMakotoExtension(candidate, version) {
     const directory = path.join(__dirname, 'makoto-motion');
     if (!fs.existsSync(path.join(directory, 'enabled'))) return;
     try {
+        const _crypto = require('node:crypto');
         const { applyMakoto } = require(path.join(directory, 'patch.cjs'));
-        const backup = path.join(directory, 'backups', version, 'app.asar');
+        const normalizedInstall = path.resolve(process.env.LOCALAPPDATA || '', 'Programs', 'antigravity').replace(/[\\/]+$/, '');
+        const installKey = _crypto.createHash('sha256').update(normalizedInstall.toLowerCase()).digest('hex').slice(0, 12);
+        const baseBytes = fs.readFileSync(candidate);
+        const baseSha256 = _crypto.createHash('sha256').update(baseBytes).digest('hex');
+        const baseBackupRel = path.posix.join('backups', installKey, version, baseSha256.slice(0, 16), 'app.asar');
+        const backup = path.join(directory, baseBackupRel);
         fs.mkdirSync(path.dirname(backup), { recursive: true });
-        if (!fs.existsSync(backup)) fs.copyFileSync(candidate, backup, fs.constants.COPYFILE_EXCL);
+        if (fs.existsSync(backup)) {
+            const existingSha = _crypto.createHash('sha256').update(fs.readFileSync(backup)).digest('hex');
+            if (existingSha !== baseSha256) throw new Error('基底备份校验冲突，已跳过覆盖。');
+        } else {
+            fs.copyFileSync(candidate, backup, fs.constants.COPYFILE_EXCL);
+        }
         applyMakoto(candidate);
+        const themedSha256 = _crypto.createHash('sha256').update(fs.readFileSync(candidate)).digest('hex');
+        const installsDir = path.join(directory, 'installs');
+        fs.mkdirSync(installsDir, { recursive: true });
+        fs.writeFileSync(path.join(installsDir, installKey + '.json'), JSON.stringify({
+            installDir: normalizedInstall,
+            installKey,
+            version,
+            mode: 'chinese-auto',
+            baseSha256,
+            baseBackupRel,
+            themedSha256,
+            updatedAt: new Date().toISOString()
+        }, null, 2) + '\n');
     } catch (error) {
         console.log('[Makoto] 当前版本保留中文界面，结城理主题待适配：' + error.message);
     }

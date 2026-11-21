@@ -65,13 +65,15 @@ function applyMakoto(archive, { livePath } = {}) {
     /if\s*\(\s*!gotTheLock\s*\)\s*\{/,
     () => 'if (!gotTheLock || process.argv.includes(' + JSON.stringify(quit) + ')) {'
   );
+  const secondaryRe = /electron_1\.app\.on\(\s*['"]second-instance['"]\s*,\s*\(\s*[A-Za-z_$][\w$]*\s*,\s*([A-Za-z_$][\w$]*)(?:\s*,[^)]*)?\)\s*=>\s*\{/;
   const updatedMain = uniqueMatch(
     withLock,
     secondary,
-    /electron_1\.app\.on\(\s*['"]second-instance['"]\s*,\s*\([^)]*\)\s*=>\s*\{/,
+    secondaryRe,
     matched => {
-      const argName = /\(\s*[^,]+,\s*([A-Za-z_$][\w$]*)[^)]*\)\s*=>\s*\{/.exec(matched)?.[1] || 'commandLine';
-      return windowHookBlock + '\n' + matched + '\n    if (' + argName + '.includes(' + JSON.stringify(quit) + ')) { electron_1.app.quit(); return; }';
+      const argName = secondaryRe.exec(matched)?.[1];
+      if (!argName) throw Error('Antigravity second-instance commandLine parameter could not be identified');
+      return windowHookBlock + '\n' + matched + '\n    if (Array.isArray(' + argName + ') && ' + argName + '.includes(' + JSON.stringify(quit) + ')) { electron_1.app.quit(); return; }';
     }
   );
   const edits = { 'dist/main.js': updatedMain, 'dist/preload.js': preload + '\n;' + JSON.stringify(marker) + ';\n' + renderer };
